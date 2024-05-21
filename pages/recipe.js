@@ -1,7 +1,8 @@
 import React from 'react';
+import RecipeCard from '../components/RecipeCard';
 
 export default function ViewRecipes() {
   return (
-    <div>This will be where all the recipe cards are displayed.</div>
+    <RecipeCard />
   );
 }

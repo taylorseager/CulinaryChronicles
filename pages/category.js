@@ -1,7 +1,8 @@
 import React from 'react';
+import CategoryCard from '../components/CategoryCard';
 
 export default function ViewAllCategories() {
   return (
-    <div>This will be where all the category cards render</div>
+    <CategoryCard />
   );
 }
