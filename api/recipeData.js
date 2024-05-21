@@ -23,7 +23,7 @@ const getSingleRecipe = (firebaseKey) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => resolve((data)))
     .catch(reject);
 });
 
@@ -35,7 +35,19 @@ const createNewRecipe = () => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => resolve((data)))
+    .catch(reject);
+});
+
+const updateRecipe = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/Recipes.json?orderBy="firebaseKey"&equalTo="${firebaseKey}"`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve((data)))
     .catch(reject);
 });
 
@@ -47,7 +59,7 @@ const deleteRecipe = (firebaseKey) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => resolve((data)))
     .catch(reject);
 });
 
@@ -56,4 +68,5 @@ export {
   getSingleRecipe,
   createNewRecipe,
   deleteRecipe,
+  updateRecipe,
 };
