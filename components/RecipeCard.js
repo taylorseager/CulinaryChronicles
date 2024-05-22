@@ -10,16 +10,16 @@ export default function RecipeCard({ recipeObj }) {
   // const { firebaseKey } = router.query;
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '22rem' }}>
       {/* <Card.Img src={recipeObj.image} alt={recipeObj.title} style={{ height: '250px' }} /> */}
       <Card.Body>
         <Card.Title>Recipe Name:{recipeObj.title}</Card.Title>
         <Card.Text>
-          <p>Total Time: {recipeObj.totalTime} (mins)</p>
-          <p>Servings: {recipeObj.servings}</p>
-          <p>Category: {recipeObj.categoryId}</p>
-          <p>Description: {recipeObj.description}</p>
-          <p>Favorite: {recipeObj.favorite}</p>
+          Total Time: {recipeObj.totalTime} (mins)
+          Servings: {recipeObj.servings}
+          Category: {recipeObj.categoryId}
+          Description: {recipeObj.description}
+          Favorite: {recipeObj.favorite}
         </Card.Text>
         <Button variant="primary">View</Button>
         <Button variant="secondary">Edit</Button>
@@ -37,6 +37,6 @@ RecipeCard.propTypes = {
     totalTime: PropTypes.number,
     categoryId: PropTypes.string,
     description: PropTypes.string,
-    favorite: PropTypes.string,
+    favorite: PropTypes.bool,
   }).isRequired,
 };
