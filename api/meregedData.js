@@ -1,1 +1,10 @@
-<p>This will hold the view recipe details promise and any promises for stretch goals that use both recipe and category data</p>;
+import { getSingleRecipe } from './recipeData';
+
+const viewRecipeDetails = (recipeFirebaseKey) => new Promise((resolve, reject) => {
+  getSingleRecipe(recipeFirebaseKey)
+    .then((recipeObj) => {
+      resolve({ recipeObj });
+    }).catch((error) => reject(error));
+});
+
+export default viewRecipeDetails;
