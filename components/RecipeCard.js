@@ -6,20 +6,21 @@ import PropTypes from 'prop-types';
 // import { useRouter } from 'next/router';
 
 export default function RecipeCard({ recipeObj }) {
+  console.warn('recipeObj', recipeObj);
   // const router = useRouter();
   // const { firebaseKey } = router.query;
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '22rem' }}>
       {/* <Card.Img src={recipeObj.image} alt={recipeObj.title} style={{ height: '250px' }} /> */}
       <Card.Body>
         <Card.Title>Recipe Name:{recipeObj.title}</Card.Title>
         <Card.Text>
-          <p>Total Time: {recipeObj.totalTime} (mins)</p>
-          <p>Servings: {recipeObj.servings}</p>
-          <p>Category: {recipeObj.categoryId}</p>
-          <p>Description: {recipeObj.description}</p>
-          <p>Favorite: {recipeObj.favorite}</p>
+          <h6>Total Time: {recipeObj.totalTime} (mins)</h6>
+          <h6>Servings: {recipeObj.servings}</h6>
+          <h6>Category: {recipeObj.categoryId}</h6>
+          <h6>Description: {recipeObj.description}</h6>
+          <h6>Favorite: {recipeObj.favorite}</h6>
         </Card.Text>
         <Button variant="primary">View</Button>
         <Button variant="secondary">Edit</Button>
