@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 // import { useRouter } from 'next/router';
 
 export default function RecipeCard({ recipeObj }) {
-  console.warn('recipeObj', recipeObj);
   // const router = useRouter();
   // const { firebaseKey } = router.query;
 
@@ -16,11 +15,11 @@ export default function RecipeCard({ recipeObj }) {
       <Card.Body>
         <Card.Title>Recipe Name:{recipeObj.title}</Card.Title>
         <Card.Text>
-          <h6>Total Time: {recipeObj.totalTime} (mins)</h6>
-          <h6>Servings: {recipeObj.servings}</h6>
-          <h6>Category: {recipeObj.categoryId}</h6>
-          <h6>Description: {recipeObj.description}</h6>
-          <h6>Favorite: {recipeObj.favorite}</h6>
+          Total Time: {recipeObj.totalTime} (mins)
+          Servings: {recipeObj.servings}
+          Category: {recipeObj.categoryId}
+          Description: {recipeObj.description}
+          Favorite: {recipeObj.favorite}
         </Card.Text>
         <Button variant="primary">View</Button>
         <Button variant="secondary">Edit</Button>
@@ -38,6 +37,6 @@ RecipeCard.propTypes = {
     totalTime: PropTypes.number,
     categoryId: PropTypes.string,
     description: PropTypes.string,
-    favorite: PropTypes.string,
+    favorite: PropTypes.bool,
   }).isRequired,
 };
