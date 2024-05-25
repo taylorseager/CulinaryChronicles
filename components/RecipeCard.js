@@ -1,7 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 // import { useRouter } from 'next/router';
 
@@ -10,21 +13,30 @@ export default function RecipeCard({ recipeObj }) {
   // const { firebaseKey } = router.query;
 
   return (
-    <Card style={{ width: '22rem' }}>
-      {/* <Card.Img src={recipeObj.image} alt={recipeObj.title} style={{ height: '250px' }} /> */}
-      <Card.Body>
-        <Card.Title>Recipe Name:{recipeObj.title}</Card.Title>
-        <Card.Text>
+    <Card sx={{ minWidth: 275, maxWidth: 400 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
+          Name: {recipeObj.title}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} component="div">
           Total Time: {recipeObj.totalTime} (mins)
+          <br />
           Servings: {recipeObj.servings}
+          <br />
           Category: {recipeObj.categoryId}
+          <br />
           Description: {recipeObj.description}
+          <br />
           Favorite: {recipeObj.favorite}
-        </Card.Text>
-        <Button variant="primary">View</Button>
-        <Button variant="secondary">Edit</Button>
-        <Button variant="danger">Delete</Button>
-      </Card.Body>
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Stack spacing={2} direction="row">
+          <Button variant="contained">Edit</Button>
+          <Button variant="contained">View</Button>
+          <Button variant="contained">Delete</Button>
+        </Stack>
+      </CardActions>
     </Card>
   );
 }
