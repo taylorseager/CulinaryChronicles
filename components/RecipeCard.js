@@ -20,13 +20,17 @@ export default function RecipeCard({ recipeObj }) {
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Total Time: {recipeObj.totalTime} (mins)
-          <br />
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} component="div">
           Servings: {recipeObj.servings}
-          <br />
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} component="div">
           Category: {recipeObj.categoryId}
-          <br />
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} component="div">
           Description: {recipeObj.description}
-          <br />
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} component="div">
           Favorite: {recipeObj.favorite}
         </Typography>
       </CardContent>

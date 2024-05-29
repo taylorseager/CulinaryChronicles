@@ -8,8 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Button, FormControlLabel } from '@mui/material';
-import { Form } from 'react-bootstrap';
+import { Button, FormControlLabel, FormGroup } from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
 import { createNewRecipe, updateRecipe } from '../../api/recipeData';
 
@@ -57,17 +56,16 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Box>Create Recipe</Box>
         <Box
-          component="form"
+          // component="form"
           sx={{
             '& > :not(style)': { m: 1, width: '25ch' },
           }}
           noValidate
           autoComplete="off"
         >
-          <br />
           <TextField
             id="standard-basic"
             label="Recipe Name"
@@ -75,7 +73,6 @@ export default function RecipeForm({ recipeObj }) {
             value={formInput.title}
             onChange={handleChange}
           />
-          <br />
           <TextField
             id="standard-basic"
             label="Total Time Required"
@@ -83,7 +80,6 @@ export default function RecipeForm({ recipeObj }) {
             value={formInput.totalTime}
             onChange={handleChange}
           />
-          <br />
           <TextField
             id="standard-basic"
             label="Description"
@@ -91,7 +87,6 @@ export default function RecipeForm({ recipeObj }) {
             value={formInput.description}
             onChange={handleChange}
           />
-          <br />
           <TextField
             id="standard-basic"
             label="Ingredients"
@@ -99,7 +94,6 @@ export default function RecipeForm({ recipeObj }) {
             value={formInput.ingredients}
             onChange={handleChange}
           />
-          <br />
           <TextField
             id="standard-basic"
             label="Recipe Image"
@@ -108,37 +102,36 @@ export default function RecipeForm({ recipeObj }) {
             onChange={handleChange}
           />
         </Box>
-        <br />
         <Box>
-          <FormControl sx={{ minWidth: 260 }}>
-            <InputLabel id="demo-simple-select-label"># of Servings</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={formInput.servings}
-              label="# of Servings"
-              onChange={handleChange}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-            </Select>
-          </FormControl>
+          <FormGroup>
+            <FormControl sx={{ minWidth: 260 }}>
+              <InputLabel id="demo-simple-select-label"># of Servings</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formInput.servings}
+                label="# of Servings"
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={9}>9</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={11}>11</MenuItem>
+                <MenuItem value={12}>12</MenuItem>
+              </Select>
+            </FormControl>
+          </FormGroup>
         </Box>
-        <br />
-        <FormControlLabel control={<Switch defaultUnChecked />} label="Favorite" />
-        <br />
+        <FormControlLabel control={<Switch />} label="Favorite" />
         <Button type="submit" variant="contained">Submit</Button>
-      </Form>
+      </form>
     </>
   );
 }
