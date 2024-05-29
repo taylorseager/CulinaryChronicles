@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Stack } from '@mui/material';
+import { CardMedia, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 // import { useRouter } from 'next/router';
 
@@ -14,6 +14,12 @@ export default function RecipeCard({ recipeObj }) {
 
   return (
     <Card sx={{ minWidth: 275, maxWidth: 400 }}>
+      <CardMedia
+        component="img"
+        height="194"
+        image={recipeObj.image}
+        alt="Paella dish"
+      />
       <CardContent>
         <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
           Name: {recipeObj.title}
