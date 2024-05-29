@@ -32,7 +32,7 @@
     "react-bootstrap": "^2.4.0",
     "react-dom": "17.0.2"
   },
-  "endencies": {
+  "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-next": "11.1.2",

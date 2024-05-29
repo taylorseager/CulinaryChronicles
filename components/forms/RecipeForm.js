@@ -1,7 +1,6 @@
-// import PropTypes from 'prop-types';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
@@ -17,15 +16,16 @@ import { createNewRecipe, updateRecipe } from '../../api/recipeData';
 const initialState = {
   image: '',
   title: '',
-  servings: 0,
+  servings: 1,
   totalTime: '',
   description: '',
+  ingredients: '',
   favorite: false,
 };
 
-export default function RecipeForm() {
+export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = React.useState(initialState);
-  // const router = useRouter();
+  const router = useRouter();
   const { user } = useAuth();
 
   const handleChange = (e) => {
@@ -36,17 +36,24 @@ export default function RecipeForm() {
     }));
   };
 
+  React.useEffect(() => {
+    if (recipeObj.firebaseKey) setFormInput(recipeObj);
+  }, [recipeObj, user]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (recipeObj.firebaseKey) {
+      updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
+    } else {
+      const payload = { ...formInput, uid: user.uid };
+      createNewRecipe(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+        updateRecipe(patchPayload).then(() => {
+          router.push('/recipe');
+        });
+      });
+    }
   };
-
-  const payload = { ...formInput, uid: user.uid };
-
-  createNewRecipe(payload).then(({ name }) => {
-    const patchPayload = { firebaseKey: name };
-    updateRecipe(patchPayload).then(() => {
-    });
-  });
 
   return (
     <>
@@ -60,6 +67,7 @@ export default function RecipeForm() {
           noValidate
           autoComplete="off"
         >
+          <br />
           <TextField
             id="standard-basic"
             label="Recipe Name"
@@ -67,6 +75,7 @@ export default function RecipeForm() {
             value={formInput.title}
             onChange={handleChange}
           />
+          <br />
           <TextField
             id="standard-basic"
             label="Total Time Required"
@@ -74,6 +83,7 @@ export default function RecipeForm() {
             value={formInput.totalTime}
             onChange={handleChange}
           />
+          <br />
           <TextField
             id="standard-basic"
             label="Description"
@@ -81,6 +91,7 @@ export default function RecipeForm() {
             value={formInput.description}
             onChange={handleChange}
           />
+          <br />
           <TextField
             id="standard-basic"
             label="Ingredients"
@@ -88,6 +99,7 @@ export default function RecipeForm() {
             value={formInput.ingredients}
             onChange={handleChange}
           />
+          <br />
           <TextField
             id="standard-basic"
             label="Recipe Image"
@@ -96,8 +108,9 @@ export default function RecipeForm() {
             onChange={handleChange}
           />
         </Box>
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
+        <br />
+        <Box>
+          <FormControl sx={{ minWidth: 260 }}>
             <InputLabel id="demo-simple-select-label"># of Servings</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -121,7 +134,9 @@ export default function RecipeForm() {
             </Select>
           </FormControl>
         </Box>
+        <br />
         <FormControlLabel control={<Switch defaultUnChecked />} label="Favorite" />
+        <br />
         <Button type="submit" variant="contained">Submit</Button>
       </Form>
     </>
@@ -137,6 +152,7 @@ RecipeForm.propTypes = {
     categoryId: PropTypes.string,
     description: PropTypes.string,
     favorite: PropTypes.bool,
+    firebaseKey: PropTypes.string,
   }),
 };
 
