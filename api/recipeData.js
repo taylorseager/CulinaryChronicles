@@ -27,15 +27,16 @@ const getSingleRecipe = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createNewRecipe = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Recipes.json"`, {
+const createNewRecipe = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/Recipes.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(payload), // Pass recipe data in the request body
   })
     .then((response) => response.json())
-    .then((data) => resolve((data)))
+    .then((data) => resolve(data))
     .catch(reject);
 });
 

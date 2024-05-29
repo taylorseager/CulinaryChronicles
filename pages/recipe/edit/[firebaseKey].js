@@ -1,7 +1,8 @@
-import React from 'react';
+// import RecipeForm from '../../../components/forms/RecipeForm';
 
-export default function EditRecipe() {
+export default function EditRecipeForm() {
   return (
-    <div>This will be the update recipe form.</div>
+    <div> this will show edit form </div>
+    // <RecipeForm />
   );
 }
