@@ -141,8 +141,12 @@ export default function RecipeForm({ recipeObj }) {
           </FormControl>
         </FormGroup>
       </Box>
-      <FormControlLabel control={<Switch />} label="Favorite" />
-      <Button type="submit" variant="contained">Submit</Button>
+      <FormControlLabel
+        control={<Switch />}
+        label="Favorite"
+        {...register('servings')}
+      />
+      <Button type="submit" variant="contained" onClick={handleSubmit(handleFormSubmit)}>Submit</Button>
     </>
   );
 }
