@@ -16,7 +16,7 @@ import { useAuth } from '../../utils/context/authContext';
 const initialState = {
   image: '',
   title: '',
-  servings: 1,
+  servings: '',
   totalTime: '',
   description: '',
   ingredients: '',
@@ -28,6 +28,8 @@ export default function RecipeForm({ recipeObj }) {
   // const [formInput, setFormInput] = React.useState(initialState);
   // const router = useRouter();
   const { user } = useAuth();
+
+  const initialServings = recipeObj ? recipeObj.servings : 1;
 
   const handleFormSubmit = (formData) => {
     console.warn('data: ', formData);
@@ -106,7 +108,16 @@ export default function RecipeForm({ recipeObj }) {
         />
         <TextField
           id="standard-basic"
-          label="Recipe Image"
+          label="Recipe Author"
+          variant="standard"
+            // value={formInput.title}
+            // onChange={handleChange}
+          {...register('author')}
+          required
+        />
+        <TextField
+          id="standard-basic"
+          label="Image"
           variant="standard"
             // value={formInput.image}
           {...register('image')}
@@ -122,6 +133,7 @@ export default function RecipeForm({ recipeObj }) {
               id="demo-simple-select"
                 // value={formInput.servings}
               label="# of Servings"
+              defaultValue={initialServings}
               {...register('servings')}
               required
             >
@@ -155,7 +167,7 @@ RecipeForm.propTypes = {
   recipeObj: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
-    servings: PropTypes.number,
+    servings: PropTypes.string,
     totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,
