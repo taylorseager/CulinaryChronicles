@@ -20,6 +20,7 @@ const initialState = {
   totalTime: '',
   description: '',
   ingredients: '',
+  author: '',
   favorite: false,
 };
 
@@ -43,7 +44,7 @@ export default function RecipeForm({ recipeObj }) {
       createNewRecipe(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateRecipe(patchPayload).then(() => {
-          router.push('/');
+          router.push('/recipe');
         });
       });
     }
