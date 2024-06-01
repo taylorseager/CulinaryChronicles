@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import RecipeCard from '../components/RecipeCard';
 import { getRecipes } from '../api/recipeData';
 import { useAuth } from '../utils/context/authContext';
@@ -13,7 +14,7 @@ export default function ViewRecipes() {
     });
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     getAllRecipes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

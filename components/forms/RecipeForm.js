@@ -30,18 +30,6 @@ export default function RecipeForm({ recipeObj }) {
 
   const initialServings = recipeObj ? recipeObj.servings : 1;
 
-  // const handleFormSubmit = (formData) => {
-  //   console.warn('data: ', formData);
-  // };
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormInput((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
   React.useEffect(() => {
     if (recipeObj.firebaseKey) register(recipeObj);
   }, [register, recipeObj, user]);
