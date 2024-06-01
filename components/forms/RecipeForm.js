@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Button, FormControlLabel, FormGroup } from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
-// import { createNewRecipe, updateRecipe } from '../../api/recipeData';
+import { createNewRecipe, updateRecipe } from '../../api/recipeData';
 
 const initialState = {
   image: '',
@@ -24,9 +24,8 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  const { register, handleSubmit } = useForm();
-  // const [formInput, setFormInput] = React.useState(initialState);
-  // const router = useRouter();
+  const { register } = useForm(initialState); // tracks data input
+  const router = useRouter();
   const { user } = useAuth();
 
   const initialServings = recipeObj ? recipeObj.servings : 1;
@@ -46,26 +45,25 @@ export default function RecipeForm({ recipeObj }) {
     if (recipeObj.firebaseKey) register(recipeObj);
   }, [register, recipeObj, user]);
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (recipeObj.firebaseKey) {
-  //     updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
-  //   } else {
-  //     const payload = { ...formInput, uid: user.uid };
-  //     createNewRecipe(payload).then(({ name }) => {
-  //       const patchPayload = { firebaseKey: name };
-  //       updateRecipe(patchPayload).then(() => {
-  //         router.push('/recipe');
-  //       });
-  //     });
-  //   }
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (recipeObj.firebaseKey) {
+      updateRecipe(register).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
+    } else {
+      const payload = { ...register, uid: user.uid };
+      createNewRecipe(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+        updateRecipe(patchPayload).then(() => {
+          router.push('/');
+        });
+      });
+    }
+  };
 
   return (
     <>
       <Box component="form" onSubmit={handleSubmit(handleFormSubmit)}>Create Recipe</Box>
       <Box
-          // component="form"
         sx={{
           '& > :not(style)': { m: 1, width: '25ch' },
         }}
@@ -76,8 +74,6 @@ export default function RecipeForm({ recipeObj }) {
           id="standard-basic"
           label="Recipe Name"
           variant="standard"
-            // value={formInput.title}
-            // onChange={handleChange}
           {...register('title')}
           required
         />
@@ -85,8 +81,6 @@ export default function RecipeForm({ recipeObj }) {
           id="standard-basic"
           label="Total Time Required"
           variant="standard"
-            // value={formInput.totalTime}
-            // onChange={handleChange}
           {...register('totalTime')}
           required
         />
@@ -94,7 +88,6 @@ export default function RecipeForm({ recipeObj }) {
           id="standard-basic"
           label="Description"
           variant="standard"
-            // value={formInput.description}
           {...register('description')}
           required
         />
@@ -102,7 +95,6 @@ export default function RecipeForm({ recipeObj }) {
           id="standard-basic"
           label="Ingredients"
           variant="standard"
-            // value={formInput.ingredients}
           {...register('ingredients')}
           required
         />
@@ -110,8 +102,6 @@ export default function RecipeForm({ recipeObj }) {
           id="standard-basic"
           label="Recipe Author"
           variant="standard"
-            // value={formInput.title}
-            // onChange={handleChange}
           {...register('author')}
           required
         />
@@ -119,7 +109,6 @@ export default function RecipeForm({ recipeObj }) {
           id="standard-basic"
           label="Image"
           variant="standard"
-            // value={formInput.image}
           {...register('image')}
           required
         />
@@ -131,7 +120,6 @@ export default function RecipeForm({ recipeObj }) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-                // value={formInput.servings}
               label="# of Servings"
               defaultValue={initialServings}
               {...register('servings')}
