@@ -1,17 +1,19 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-// import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { useRouter } from 'next/router';
+// import { useForm } from 'react-hook-form';
+// import Box from '@mui/material/Box';
+// import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { Button, FormControlLabel, FormGroup } from '@mui/material';
+// import Select from '@mui/material/Select';
+import {
+  Button, FormControlLabel, FormLabel, Grid, Input, Radio, RadioGroup,
+} from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
-// import { createNewRecipe, updateRecipe } from '../../api/recipeData';
+import { createNewRecipe, getRecipes, updateRecipe } from '../../api/recipeData';
 
 const initialState = {
   image: '',
@@ -24,125 +26,121 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  const { register, handleSubmit } = useForm();
-  // const [formInput, setFormInput] = React.useState(initialState);
-  // const router = useRouter();
+  const [formInput, setFormInput] = React.useState(initialState);
+  const [value, setValue] = React.useState([]);
+  const router = useRouter();
   const { user } = useAuth();
 
-  const handleFormSubmit = (formData) => {
-    console.warn('data: ', formData);
-  };
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormInput((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
   React.useEffect(() => {
-    if (recipeObj.firebaseKey) register(recipeObj);
-  }, [register, recipeObj, user]);
+    getRecipes(user.uid).then(setValue);
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (recipeObj.firebaseKey) {
-  //     updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
-  //   } else {
-  //     const payload = { ...formInput, uid: user.uid };
-  //     createNewRecipe(payload).then(({ name }) => {
-  //       const patchPayload = { firebaseKey: name };
-  //       updateRecipe(patchPayload).then(() => {
-  //         router.push('/recipe');
-  //       });
-  //     });
-  //   }
-  // };
+    if (recipeObj.firebaseKey) setFormInput(recipeObj);
+  }, [recipeObj, user]);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    const { name, input } = e.target;
+    setFormInput((prevState) => ({
+      ...prevState,
+      [name]: input,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (recipeObj.firebaseKey) {
+      updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
+    } else {
+      const payload = { ...formInput, uid: user.uid };
+      console.warn('payload', payload);
+      createNewRecipe(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+        updateRecipe(patchPayload).then(() => {
+          router.push('/recipe');
+        });
+      });
+    }
+  };
 
   return (
     <>
-      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)}>Create Recipe</Box>
-      <Box
-          // component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="standard-basic"
-          label="Recipe Name"
-          variant="standard"
-            // value={formInput.title}
-            // onChange={handleChange}
-          {...register('title')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Total Time Required"
-          variant="standard"
-            // value={formInput.totalTime}
-            // onChange={handleChange}
-          {...register('totalTime')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Description"
-          variant="standard"
-            // value={formInput.description}
-          {...register('description')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Ingredients"
-          variant="standard"
-            // value={formInput.ingredients}
-          {...register('ingredients')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Recipe Image"
-          variant="standard"
-            // value={formInput.image}
-          {...register('image')}
-          required
-        />
-      </Box>
-      <Box>
-        <FormGroup>
-          <FormControl sx={{ minWidth: 260 }}>
-            <InputLabel id="demo-simple-select-label"># of Servings</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-                // value={formInput.servings}
-              label="# of Servings"
-              {...register('servings')}
+      <form onSubmit={handleSubmit}>
+        <h1>Create Recipe</h1>
+        <Grid container rowSpacing={8}>
+          <Grid item xs={8}>
+            {/* sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off" */}
+            <Input
+              id="standard-basic"
+              placeholder="Recipe Name"
+              variant="standard"
+              inputProps={formInput.title}
+              onChange={handleChange}
               required
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-            </Select>
-          </FormControl>
-        </FormGroup>
-      </Box>
-      <FormControlLabel control={<Switch />} label="Favorite" />
-      <Button type="submit" variant="contained">Submit</Button>
+            />
+            <Input
+              id="standard-basic"
+              placeholder="Total Time Required"
+              variant="standard"
+              inputProps={formInput.totalTime}
+              onChange={handleChange}
+          // {...register('totalTime')}
+              required
+            />
+            <Input
+              id="standard-basic"
+              placeholder="Description"
+              variant="standard"
+              inputProps={formInput.description}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              id="standard-basic"
+              placeholder="Ingredients"
+              variant="standard"
+              inputProps={formInput.ingredients}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              id="standard-basic"
+              placeholder="Recipe Image"
+              variant="standard"
+              inputProps={formInput.image}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+          <Grid>
+            <FormControl>
+              <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={value}
+                onChange={handleChange}
+              >
+                <FormControlLabel value="1" control={<Radio />} label="1" />
+                <FormControlLabel value="2" control={<Radio />} label="2" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <FormControlLabel
+            control={(
+              <Switch
+                value={formInput.favorite}
+                onChange={handleChange}
+              />
+)}
+            label="Favorite"
+          />
+          <Button type="submit" variant="contained">Submit</Button>
+        </Grid>
+      </form>
     </>
   );
 }
