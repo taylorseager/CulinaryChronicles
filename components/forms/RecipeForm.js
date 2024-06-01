@@ -9,7 +9,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Button, FormControlLabel, FormGroup } from '@mui/material';
+import {
+  Button, FormControlLabel, FormGroup,
+} from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
 import { createNewRecipe, updateRecipe } from '../../api/recipeData';
 
@@ -25,15 +27,20 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  const { register } = useForm(initialState); // tracks data input
+  const { register, setValue } = useForm(initialState); // tracks data input
   const router = useRouter();
   const { user } = useAuth();
 
   const initialServings = recipeObj ? recipeObj.servings : 1;
 
   React.useEffect(() => {
-    if (recipeObj.firebaseKey) register(recipeObj);
-  }, [register, recipeObj, user]);
+    if (recipeObj?.firebaseKey) {
+      // Set form values when recipeObj changes
+      Object.entries(recipeObj).forEach(([key, value]) => {
+        setValue(key, value);
+      });
+    }
+  }, [recipeObj, setValue]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +48,7 @@ export default function RecipeForm({ recipeObj }) {
       updateRecipe(register).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
     } else {
       const payload = { ...register, uid: user.uid };
+      console.warn(payload);
       createNewRecipe(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateRecipe(patchPayload).then(() => {
@@ -52,91 +60,93 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <>
-      <Box component="form" onSubmit={handleSubmit}>Create Recipe</Box>
-      <Box
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="standard-basic"
-          label="Recipe Name"
-          variant="standard"
-          {...register('title')}
-          required
+      <form onSubmit={handleSubmit}>
+        <input {...register('input')} />
+        <Box
+          sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="standard-basic"
+            label="Recipe Name"
+            variant="standard"
+            {...register('title')}
+            required
+          />
+          <TextField
+            id="standard-basic"
+            label="Total Time Required"
+            variant="standard"
+            {...register('totalTime')}
+            required
+          />
+          <TextField
+            id="standard-basic"
+            label="Description"
+            variant="standard"
+            {...register('description')}
+            required
+          />
+          <TextField
+            id="standard-basic"
+            label="Ingredients"
+            variant="standard"
+            {...register('ingredients')}
+            required
+          />
+          <TextField
+            id="standard-basic"
+            label="Recipe Author"
+            variant="standard"
+            {...register('author')}
+            required
+          />
+          <TextField
+            id="standard-basic"
+            label="Image"
+            variant="standard"
+            {...register('image')}
+            required
+          />
+        </Box>
+        <Box>
+          <FormGroup>
+            <FormControl sx={{ minWidth: 260 }}>
+              <InputLabel id="demo-simple-select-label"># of Servings</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="# of Servings"
+                defaultValue={initialServings}
+                {...register('servings')}
+                required
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={9}>9</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={11}>11</MenuItem>
+                <MenuItem value={12}>12</MenuItem>
+              </Select>
+            </FormControl>
+          </FormGroup>
+        </Box>
+        <FormControlLabel
+          control={<Switch />}
+          label="Favorite"
+          {...register('servings')}
         />
-        <TextField
-          id="standard-basic"
-          label="Total Time Required"
-          variant="standard"
-          {...register('totalTime')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Description"
-          variant="standard"
-          {...register('description')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Ingredients"
-          variant="standard"
-          {...register('ingredients')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Recipe Author"
-          variant="standard"
-          {...register('author')}
-          required
-        />
-        <TextField
-          id="standard-basic"
-          label="Image"
-          variant="standard"
-          {...register('image')}
-          required
-        />
-      </Box>
-      <Box>
-        <FormGroup>
-          <FormControl sx={{ minWidth: 260 }}>
-            <InputLabel id="demo-simple-select-label"># of Servings</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="# of Servings"
-              defaultValue={initialServings}
-              {...register('servings')}
-              required
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-            </Select>
-          </FormControl>
-        </FormGroup>
-      </Box>
-      <FormControlLabel
-        control={<Switch />}
-        label="Favorite"
-        {...register('servings')}
-      />
-      <Button type="submit" variant="contained" onClick={handleSubmit}>Submit</Button>
+        <Button type="submit" variant="contained">Submit</Button>
+      </form>
     </>
   );
 }
@@ -150,6 +160,7 @@ RecipeForm.propTypes = {
     categoryId: PropTypes.string,
     description: PropTypes.string,
     favorite: PropTypes.bool,
+    author: PropTypes.string,
     firebaseKey: PropTypes.string,
   }),
 };

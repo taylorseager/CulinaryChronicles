@@ -2,7 +2,6 @@ import { clientCredentials } from '../utils/client';
 
 const endpoint = clientCredentials.databaseURL;
 
-// Pull all recipes from firebase
 const getRecipes = (uid) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/recipes.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
@@ -40,14 +39,14 @@ const createNewRecipe = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateRecipe = (patchPayload) => new Promise((resolve, reject) => {
-  console.warn(patchPayload);
-  fetch(`${endpoint}/recipes.json?orderBy="firebaseKey"&equalTo="${patchPayload.firebaseKey}"`, {
+const updateRecipe = (payload) => new Promise((resolve, reject) => {
+  console.warn(payload);
+  fetch(`${endpoint}/recipes/${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(patchPayload),
+    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
     .then((data) => resolve((data)))
@@ -55,7 +54,7 @@ const updateRecipe = (patchPayload) => new Promise((resolve, reject) => {
 });
 
 const deleteRecipe = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/recipes/${firebaseKey}.json"`, {
+  fetch(`${endpoint}/recipes/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
