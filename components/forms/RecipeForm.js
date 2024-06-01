@@ -30,9 +30,10 @@ export default function RecipeForm({ recipeObj }) {
 
   const initialServings = recipeObj ? recipeObj.servings : 1;
 
-  const handleFormSubmit = (formData) => {
-    console.warn('data: ', formData);
-  };
+  // const handleFormSubmit = (formData) => {
+  //   console.warn('data: ', formData);
+  // };
+
   // const handleChange = (e) => {
   //   const { name, value } = e.target;
   //   setFormInput((prevState) => ({
@@ -62,7 +63,7 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <>
-      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)}>Create Recipe</Box>
+      <Box component="form" onSubmit={handleSubmit}>Create Recipe</Box>
       <Box
         sx={{
           '& > :not(style)': { m: 1, width: '25ch' },
@@ -146,7 +147,7 @@ export default function RecipeForm({ recipeObj }) {
         label="Favorite"
         {...register('servings')}
       />
-      <Button type="submit" variant="contained" onClick={handleSubmit(handleFormSubmit)}>Submit</Button>
+      <Button type="submit" variant="contained" onClick={handleSubmit}>Submit</Button>
     </>
   );
 }
