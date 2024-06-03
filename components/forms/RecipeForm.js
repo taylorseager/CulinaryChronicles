@@ -41,10 +41,11 @@ export default function RecipeForm({ recipeObj }) {
   const handleChange = (e) => {
     setValue(e.target.value);
     // destructuring
-    const { name } = e.target;
+    const { name, checked } = e.target;
+    const newInputValue = e.target.type === 'favorite' ? checked : e.target.value;
     setFormInput((prevState) => ({
       ...prevState,
-      [name]: e.target.value,
+      [name]: newInputValue,
     }));
   };
 
@@ -112,7 +113,7 @@ export default function RecipeForm({ recipeObj }) {
             required
           />
           <Input
-            name="category"
+            name="categoryId"
             placeholder="Category"
             variant="standard"
             // inputProps={formInput.ingredients}
@@ -153,7 +154,8 @@ export default function RecipeForm({ recipeObj }) {
         <FormControlLabel
           control={(
             <Switch
-              value={formInput.favorite}
+              name="favorite"
+              checked={formInput.favorite}
               onChange={handleChange}
             />
           )}
