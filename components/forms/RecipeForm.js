@@ -38,9 +38,14 @@ export default function RecipeForm({ recipeObj }) {
     if (recipeObj.firebaseKey) setFormInput(recipeObj);
   }, [recipeObj, user]);
 
-  const handleChange = (event) => {
-    setFormInput({ ...formInput, [event.target.name]: event.target.value });
-    console.warn(formInput);
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    // destructuring
+    const { name } = e.target;
+    setFormInput((prevState) => ({
+      ...prevState,
+      [name]: e.target.value,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -108,6 +113,22 @@ export default function RecipeForm({ recipeObj }) {
             required
           />
           <Input
+            name="category"
+            placeholder="Category"
+            variant="standard"
+            // inputProps={formInput.ingredients}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            name="author"
+            placeholder="Recipe Creator"
+            variant="standard"
+            // inputProps={formInput.ingredients}
+            onChange={handleChange}
+            required
+          />
+          <Input
             name="image"
             placeholder="Recipe Image"
             variant="standard"
@@ -121,7 +142,7 @@ export default function RecipeForm({ recipeObj }) {
             <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
+              name="servings"
               value={value}
               onChange={handleChange}
             >
