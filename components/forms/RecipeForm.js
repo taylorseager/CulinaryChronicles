@@ -32,116 +32,116 @@ export default function RecipeForm({ recipeObj }) {
   const { user } = useAuth();
 
   React.useEffect(() => {
+    console.warn('useeffect running');
     getRecipes(user.uid).then(setValue);
 
     if (recipeObj.firebaseKey) setFormInput(recipeObj);
   }, [recipeObj, user]);
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    const { name, input } = e.target;
-    setFormInput((prevState) => ({
-      ...prevState,
-      [name]: input,
-    }));
+  const handleChange = (event) => {
+    setFormInput({ ...formInput, [event.target.name]: event.target.value });
+    console.warn(formInput);
   };
 
   const handleSubmit = (e) => {
+    console.warn(formInput);
     e.preventDefault();
+    console.warn(recipeObj.firebaseKey);
     if (recipeObj.firebaseKey) {
       updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid };
       console.warn('payload', payload);
       createNewRecipe(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
-        updateRecipe(patchPayload).then(() => {
-          router.push('/recipe');
-        });
+        const firebaseKey = name;
+        console.warn('firebasekey', firebaseKey);
+        // router.push('/recipe');
+        // const firebase = { firebaseKey: name };
+        // updateRecipe(patchPayload).then(() => {
+        //   router.push('/recipe');
+        // });
       });
     }
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <h1>Create Recipe</h1>
-        <Grid container rowSpacing={8}>
-          <Grid item xs={8}>
-            {/* sx={{
-            '& > :not(style)': { m: 1, width: '25ch' },
-          }}
-          noValidate
-          autoComplete="off" */}
-            <Input
-              id="standard-basic"
-              placeholder="Recipe Name"
-              variant="standard"
-              inputProps={formInput.title}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              id="standard-basic"
-              placeholder="Total Time Required"
-              variant="standard"
-              inputProps={formInput.totalTime}
-              onChange={handleChange}
-          // {...register('totalTime')}
-              required
-            />
-            <Input
-              id="standard-basic"
-              placeholder="Description"
-              variant="standard"
-              inputProps={formInput.description}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              id="standard-basic"
-              placeholder="Ingredients"
-              variant="standard"
-              inputProps={formInput.ingredients}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              id="standard-basic"
-              placeholder="Recipe Image"
-              variant="standard"
-              inputProps={formInput.image}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-          <Grid>
-            <FormControl>
-              <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={value}
-                onChange={handleChange}
-              >
-                <FormControlLabel value="1" control={<Radio />} label="1" />
-                <FormControlLabel value="2" control={<Radio />} label="2" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <FormControlLabel
-            control={(
-              <Switch
-                value={formInput.favorite}
-                onChange={handleChange}
-              />
-)}
-            label="Favorite"
+    <form onSubmit={handleSubmit}>
+      <h1>Create Recipe</h1>
+      <Grid container rowSpacing={8}>
+        <Grid item xs={8}>
+          {/* sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off" */}
+          <Input
+            name="title"
+            placeholder="Recipe Name"
+            variant="standard"
+            // inputProps={formInput.title}
+            onChange={handleChange}
+            required
           />
-          <Button type="submit" variant="contained">Submit</Button>
+          <Input
+            name="totalTime"
+            placeholder="Total Time Required"
+            variant="standard"
+            // inputProps={formInput.totalTime}
+            onChange={handleChange}
+            // {...register('totalTime')}
+            required
+          />
+          <Input
+            name="description"
+            placeholder="Description"
+            variant="standard"
+            // inputProps={formInput.description}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            name="ingredients"
+            placeholder="Ingredients"
+            variant="standard"
+            // inputProps={formInput.ingredients}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            name="image"
+            placeholder="Recipe Image"
+            variant="standard"
+            // inputProps={formInput.image}
+            onChange={handleChange}
+            required
+          />
         </Grid>
-      </form>
-    </>
+        <Grid>
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={value}
+              onChange={handleChange}
+            >
+              <FormControlLabel value="1" control={<Radio />} label="1" />
+              <FormControlLabel value="2" control={<Radio />} label="2" />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <FormControlLabel
+          control={(
+            <Switch
+              value={formInput.favorite}
+              onChange={handleChange}
+            />
+          )}
+          label="Favorite"
+        />
+        <Button type="submit" variant="contained">Submit</Button>
+      </Grid>
+    </form>
   );
 }
 
