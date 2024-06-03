@@ -4,7 +4,7 @@ const endpoint = clientCredentials.databaseURL;
 
 // Pull all recipes from firebase
 const getRecipes = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Recipes.json?orderBy="uid"&equalTo="${uid}"`, {
+  fetch(`${endpoint}/recipes.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const getRecipes = (uid) => new Promise((resolve, reject) => {
 });
 
 const getSingleRecipe = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Recipes.json?orderBy="firebaseKey"&equalTo="${firebaseKey}"`, {
+  fetch(`${endpoint}/recipes.json?orderBy="firebaseKey"&equalTo="${firebaseKey}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const getSingleRecipe = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 const createNewRecipe = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Recipes.json`, {
+  fetch(`${endpoint}/recipes.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -40,12 +40,14 @@ const createNewRecipe = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateRecipe = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Recipes.json?orderBy="firebaseKey"&equalTo="${firebaseKey}"`, {
+const updateRecipe = (payload) => new Promise((resolve, reject) => {
+  console.warn('promise', payload);
+  fetch(`${endpoint}/recipes./${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
     .then((data) => resolve((data)))
@@ -53,7 +55,7 @@ const updateRecipe = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 const deleteRecipe = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Recipes/${firebaseKey}.json"`, {
+  fetch(`${endpoint}/recipes/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
