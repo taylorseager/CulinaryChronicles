@@ -60,7 +60,6 @@ export default function RecipeForm({ recipeObj }) {
       createNewRecipe(payload).then(({ name }) => {
         const firebaseKey = name;
         console.warn('firebasekey', firebaseKey);
-        // router.push('/recipe');
         // const firebase = { firebaseKey: name };
         // updateRecipe(patchPayload).then(() => {
         //   router.push('/recipe');
