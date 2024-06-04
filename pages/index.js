@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button } from '@mui/material';
 import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
 
@@ -16,7 +16,8 @@ function Home() {
       }}
     >
       <h1>Hello {user.displayName}!</h1>
-      <Button variant="danger" onClick={signOut}>Sign Out</Button>
+      <Button color="success" variant="outlined" href="/recipe/newRecipe">Create New Recipe</Button>
+      <Button color="error" variant="outlined" onClick={signOut}>Sign Out</Button>
     </div>
   );
 }
