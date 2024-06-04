@@ -50,8 +50,8 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
       </CardContent>
       <CardActions>
         <Stack spacing={2} direction="row">
-          <Button variant="contained">Edit</Button>
-          <Button variant="contained" color="secondary">View</Button>
+          <Button href={`/recipe/edit/${recipeObj.firebaseKey}`} variant="contained">Edit</Button>
+          <Button href={`/recipe/${recipeObj.firebaseKey}`} variant="contained" color="secondary">View</Button>
           <Button variant="contained" color="error" onClick={deleteThisRecipe}>Delete</Button>
         </Stack>
       </CardActions>
