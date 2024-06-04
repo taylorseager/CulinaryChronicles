@@ -1,14 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-// import { useForm } from 'react-hook-form';
-// import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
 import {
   Button, FormControlLabel, FormLabel, Grid, Input, Radio, RadioGroup,
 } from '@mui/material';
@@ -18,7 +12,7 @@ import { createNewRecipe, getRecipes, updateRecipe } from '../../api/recipeData'
 const initialState = {
   image: '',
   title: '',
-  servings: 1,
+  servings: '',
   totalTime: '',
   description: '',
   category: '',
@@ -147,12 +141,12 @@ export default function RecipeForm({ recipeObj }) {
               value={value}
               onChange={handleChange}
             >
-              <FormControlLabel value="1-2" control={<Radio />} label="1-2" />
-              <FormControlLabel value="3-4" control={<Radio />} label="3-4" />
-              <FormControlLabel value="5-6" control={<Radio />} label="5-6" />
-              <FormControlLabel value="7-8" control={<Radio />} label="7-8" />
-              <FormControlLabel value="9-10" control={<Radio />} label="9-10" />
-              <FormControlLabel value="11-12" control={<Radio />} label="11-12" />
+              <FormControlLabel value="1" control={<Radio />} label="1" />
+              <FormControlLabel value="2" control={<Radio />} label="2" />
+              <FormControlLabel value="4" control={<Radio />} label="4" />
+              <FormControlLabel value="6" control={<Radio />} label="6" />
+              <FormControlLabel value="8" control={<Radio />} label="8" />
+              <FormControlLabel value="10" control={<Radio />} label="10" />
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -176,7 +170,7 @@ RecipeForm.propTypes = {
   recipeObj: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
-    servings: PropTypes.number,
+    servings: PropTypes.string,
     totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,

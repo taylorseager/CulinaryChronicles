@@ -20,6 +20,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
       });
     }
   };
+
   return (
     <Card sx={{ minWidth: 275, maxWidth: 400 }}>
       <CardMedia
@@ -63,7 +64,7 @@ RecipeCard.propTypes = {
   recipeObj: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
-    servings: PropTypes.number,
+    servings: PropTypes.string,
     totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,
