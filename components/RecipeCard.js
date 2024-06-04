@@ -14,11 +14,12 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
   // const { firebaseKey } = router.query;
 
   const deleteThisRecipe = () => {
-    if (window.confirm(`Are you sure you want to delete this family heirloom ${recipeObj.title}?`)) {
-      deleteRecipe(recipeObj.firebaseKey).then(() => onUpdate());
+    if (window.confirm(`Are you sure you want to delete this family heirloom: ${recipeObj.title}?`)) {
+      deleteRecipe(recipeObj.firebaseKey).then(() => {
+        onUpdate();
+      });
     }
   };
-
   return (
     <Card sx={{ minWidth: 275, maxWidth: 400 }}>
       <CardMedia
