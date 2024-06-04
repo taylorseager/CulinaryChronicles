@@ -6,12 +6,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CardMedia, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
+import { deleteRecipe } from '../api/recipeData';
 // import { useRouter } from 'next/router';
 
-export default function RecipeCard({ recipeObj }) {
+export default function RecipeCard({ recipeObj, onUpdate }) {
   // const router = useRouter();
   // const { firebaseKey } = router.query;
 
+  const deleteThisRecipe = () => {
+    if (window.confirm(`Are you sure you want to delete this family heirloom: ${recipeObj.title}?`)) {
+      deleteRecipe(recipeObj.firebaseKey).then(() => {
+        onUpdate();
+      });
+    }
+  };
   return (
     <Card sx={{ minWidth: 275, maxWidth: 400 }}>
       <CardMedia
@@ -43,8 +51,8 @@ export default function RecipeCard({ recipeObj }) {
       <CardActions>
         <Stack spacing={2} direction="row">
           <Button variant="contained">Edit</Button>
-          <Button variant="contained">View</Button>
-          <Button variant="contained">Delete</Button>
+          <Button variant="contained" color="secondary">View</Button>
+          <Button variant="contained" color="error" onClick={deleteThisRecipe}>Delete</Button>
         </Stack>
       </CardActions>
     </Card>
@@ -56,9 +64,11 @@ RecipeCard.propTypes = {
     image: PropTypes.string,
     title: PropTypes.string,
     servings: PropTypes.number,
-    totalTime: PropTypes.number,
+    totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,
     favorite: PropTypes.bool,
+    firebaseKey: PropTypes.string,
   }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };

@@ -10,7 +10,6 @@ function ViewAllCategories() {
 
   const getAllCategories = () => {
     getCategories(user.uid).then((data) => {
-      console.warn('data', data);
       setCategories(data);
     });
   };
