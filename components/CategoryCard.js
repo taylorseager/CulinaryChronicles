@@ -5,12 +5,18 @@ import CardContent from '@mui/material/CardContent';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import { CardMedia } from '@mui/material';
 // import { useRouter } from 'next/router';
 
 export default function CategoryCard({ categoryObj }) {
   return (
     <Card sx={{ minWidth: 275, maxWidth: 400 }}>
-      {/* <Card.Img src={categoryObj.image} alt={categoryObj.title} style={{ height: '250px' }} /> */}
+      <CardMedia
+        component="img"
+        height="194"
+        image={categoryObj.image}
+        alt={categoryObj.image}
+      />
       <CardContent>
         <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
           {categoryObj.categoryType}

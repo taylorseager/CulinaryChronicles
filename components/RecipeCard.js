@@ -18,7 +18,7 @@ export default function RecipeCard({ recipeObj }) {
         component="img"
         height="194"
         image={recipeObj.image}
-        alt="Paella dish"
+        alt={recipeObj.image}
       />
       <CardContent>
         <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
