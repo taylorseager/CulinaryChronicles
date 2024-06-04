@@ -21,6 +21,8 @@ const initialState = {
   servings: 1,
   totalTime: '',
   description: '',
+  category: '',
+  author: '',
   ingredients: '',
   favorite: false,
 };
