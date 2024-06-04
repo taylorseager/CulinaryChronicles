@@ -34,7 +34,6 @@ export default function RecipeForm({ recipeObj }) {
   const { user } = useAuth();
 
   React.useEffect(() => {
-    console.warn('useeffect running');
     getRecipes(user.uid).then(setValue);
 
     if (recipeObj.firebaseKey) setFormInput(recipeObj);
@@ -148,8 +147,12 @@ export default function RecipeForm({ recipeObj }) {
               value={value}
               onChange={handleChange}
             >
-              <FormControlLabel value="1" control={<Radio />} label="1" />
-              <FormControlLabel value="2" control={<Radio />} label="2" />
+              <FormControlLabel value="1-2" control={<Radio />} label="1-2" />
+              <FormControlLabel value="3-4" control={<Radio />} label="3-4" />
+              <FormControlLabel value="5-6" control={<Radio />} label="5-6" />
+              <FormControlLabel value="7-8" control={<Radio />} label="7-8" />
+              <FormControlLabel value="9-10" control={<Radio />} label="9-10" />
+              <FormControlLabel value="11-12" control={<Radio />} label="11-12" />
             </RadioGroup>
           </FormControl>
         </Grid>
