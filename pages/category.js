@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
 import CategoryCard from '../components/CategoryCard';
 import { useAuth } from '../utils/context/authContext';
 import getCategories from '../api/categoryData';
 
-export default function ViewAllCategories() {
-  const [categories, setCategories] = useState([]);
+function ViewAllCategories() {
+  const [categorys, setCategories] = React.useState([]);
   const { user } = useAuth();
 
   const getAllCategories = () => {
     getCategories(user.uid).then((data) => {
+      console.warn('data', data);
       setCategories(data);
     });
   };
@@ -20,9 +22,11 @@ export default function ViewAllCategories() {
 
   return (
     <div>
-      {categories.map((category) => (
+      {categorys.map((category) => (
         <CategoryCard categoryObj={category} key={category.firebaseKey} onUpdate={getAllCategories} />
       ))}
     </div>
   );
 }
+
+export default ViewAllCategories;
