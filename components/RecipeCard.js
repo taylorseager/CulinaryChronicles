@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CardMedia, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { deleteRecipe } from '../api/recipeData';
+import { deleteRecipe, getRecipes } from '../api/recipeData';
 // import { useRouter } from 'next/router';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
@@ -14,9 +14,11 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
   // const { firebaseKey } = router.query;
 
   const deleteThisRecipe = () => {
+    console.warn(recipeObj);
     if (window.confirm(`Are you sure you want to delete this family heirloom: ${recipeObj.title}?`)) {
       deleteRecipe(recipeObj.firebaseKey).then(() => {
-        onUpdate();
+        console.warn('firebaseKey', recipeObj.firebaseKey);
+        onUpdate(getRecipes);
       });
     }
   };
@@ -39,9 +41,9 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
         <Typography sx={{ fontSize: 14 }} component="div">
           Servings: {recipeObj.servings}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Category: {recipeObj.categoryId}
-        </Typography>
+        {/* <Typography sx={{ fontSize: 14 }} component="div">
+          Category: {categoryObj.firebaseKey}
+        </Typography> */}
         <Typography sx={{ fontSize: 14 }} component="div">
           Description: {recipeObj.description}
         </Typography>
