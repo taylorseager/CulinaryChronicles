@@ -5,14 +5,29 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 // import viewRecipeDetails from '../../api/meregedData';
 import { getSingleRecipe } from '../../api/recipeData';
+import getCategories from '../../api/categoryData';
 
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = React.useState({});
+  // const [categories, setCategories] = React.useState({});
+
   const router = useRouter();
   const { firebaseKey } = router.query;
 
   useEffect(() => {
-    getSingleRecipe(firebaseKey).then(setRecipeDetails);
+    getSingleRecipe(firebaseKey).then((recipe) => {
+      console.warn(recipe);
+      const updatedRecipe = { ...recipe[firebaseKey] };
+      getCategories().then((categories) => {
+        categories.forEach((category) => {
+          if (category.firebaseKey === updatedRecipe.categoryId) {
+            updatedRecipe.categoryName = category.categoryType;
+            setRecipeDetails(updatedRecipe);
+          }
+        });
+      });
+      // const categoriesArray = categories;
+    });
     console.warn('firebaseKey', firebaseKey);
   }, [firebaseKey]);
 
@@ -38,13 +53,13 @@ export default function ViewSingleRecipeDetails() {
           Servings: {recipeDetails.servings}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Category: {recipeDetails.categoryId}
+          Category: {recipeDetails.categoryName}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Description: {recipeDetails.description}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Favorite: {recipeDetails.favorite}
+          Favorite: {recipeDetails.favorite ? 'Yes' : 'No'}
         </Typography>
       </CardContent>
     </Card>

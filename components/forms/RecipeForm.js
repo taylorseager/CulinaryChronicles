@@ -38,6 +38,7 @@ export default function RecipeForm({ recipeObj }) {
     getRecipes(user.uid).then(setValue);
 
     if (recipeObj.firebaseKey) setFormInput(recipeObj);
+    console.warn(recipeObj);
   }, [recipeObj, user]);
 
   const handleChange = (e) => {
@@ -85,7 +86,7 @@ export default function RecipeForm({ recipeObj }) {
             name="title"
             placeholder="Recipe Name"
             variant="standard"
-            // inputProps={formInput.title}
+            value={formInput.title}
             onChange={handleChange}
             required
           />
