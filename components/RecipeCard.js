@@ -10,6 +10,7 @@ import { deleteRecipe, getRecipes } from '../api/recipeData';
 // import { useRouter } from 'next/router';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
+  console.warn(recipeObj);
   // const router = useRouter();
   // const { firebaseKey } = router.query;
 
@@ -48,7 +49,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
           Description: {recipeObj.description}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Favorite: {recipeObj.favorite}
+          Favorite: {recipeObj.favorite ? 'Yes' : 'No'}
         </Typography>
       </CardContent>
       <CardActions>

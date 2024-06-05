@@ -20,12 +20,12 @@ const initialState = {
   categoryId: '',
   author: '',
   ingredients: '',
-  favorite: 'off',
+  favorite: false,
 };
 
 export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = React.useState(initialState);
-  const [value, setValue] = React.useState([]);
+  // const [value, setValue] = React.useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -45,9 +45,9 @@ export default function RecipeForm({ recipeObj }) {
     if (recipeObj.firebaseKey) setFormInput(recipeObj);
   }, [recipeObj, user]);
 
-  // React.useEffect(() => {
-  //   console.warn(formInput);
-  // }, [formInput]); for debugging
+  React.useEffect(() => {
+    console.warn(formInput);
+  }, [formInput]);
 
   // function takes in firebase key from selected value
   const handleCategoryChange = (firebaseKey) => {
@@ -59,15 +59,16 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleChange = (e) => {
     console.warn(e);
-    setValue(e.target.value);
+    // setValue(0);
     // destructuring
     const { name, checked } = e.target;
+    console.warn(checked);
     const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
+    console.warn(newInputValue);
     setFormInput((prevState) => ({
       ...prevState,
       [name]: newInputValue,
     }));
-    console.warn(formInput);
   };
 
   const handleSubmit = (e) => {
@@ -165,7 +166,6 @@ export default function RecipeForm({ recipeObj }) {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="servings"
-              value={value}
               onChange={handleChange}
             >
               <FormControlLabel value="1" control={<Radio />} label="1" />
@@ -201,7 +201,7 @@ RecipeForm.propTypes = {
     totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,
-    favorite: PropTypes.string,
+    favorite: PropTypes.bool,
     firebaseKey: PropTypes.string,
   }),
 };
