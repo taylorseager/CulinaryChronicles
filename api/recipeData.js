@@ -42,7 +42,7 @@ const createNewRecipe = (payload) => new Promise((resolve, reject) => {
 
 const updateRecipe = (payload) => new Promise((resolve, reject) => {
   console.warn('promise', payload);
-  fetch(`${endpoint}/recipes./${payload.firebaseKey}.json`, {
+  fetch(`${endpoint}/recipes/${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -61,8 +61,13 @@ const deleteRecipe = (firebaseKey) => new Promise((resolve, reject) => {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
-    .then((data) => resolve((data)))
+    .then((response) => {
+      if (response.ok) {
+        resolve();
+      } else {
+        reject(new Error('Failed to delete recipe'));
+      }
+    })
     .catch(reject);
 });
 

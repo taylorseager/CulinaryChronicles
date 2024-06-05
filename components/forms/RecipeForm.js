@@ -1,19 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-// import { useForm } from 'react-hook-form';
-// import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
 import {
+  Autocomplete,
   Button, FormControlLabel, FormLabel, Grid, Input, Radio, RadioGroup,
+  TextField,
 } from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
-import { createNewRecipe, getRecipes, updateRecipe } from '../../api/recipeData';
+import { createNewRecipe, updateRecipe } from '../../api/recipeData';
 
 const initialState = {
   image: '',
@@ -21,7 +17,7 @@ const initialState = {
   servings: 1,
   totalTime: '',
   description: '',
-  category: '',
+  categoryId: '',
   author: '',
   ingredients: '',
   favorite: false,
@@ -29,23 +25,47 @@ const initialState = {
 
 export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = React.useState(initialState);
-  const [value, setValue] = React.useState([]);
+  // const [value, setValue] = React.useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
-  React.useEffect(() => {
-    console.warn('useeffect running');
-    getRecipes(user.uid).then(setValue);
+  const categoriesList = [
+    { label: 'Sides', firebaseKey: '-NyNp_CsuaAhfcnO4jPL' },
+    { label: 'Main Dishes', firebaseKey: '-NyNp_CtPiAKY1_g5cf4' },
+    { label: 'Desserts', firebaseKey: '-NyNp_Cupvv-4epYPvaX' },
+    { label: 'Soups', firebaseKey: '-NyNp_CvjHj--Z4Le7Zb' },
+    { label: 'Drinks', firebaseKey: '-NyNp_CwN9DUrRY3mjmk' },
+  ];
 
+  // create a function here to get the category data and put it in a useState like with recipies
+
+  React.useEffect(() => {
+    // getRecipes(user.uid).then(setValue);
+    // get categories
     if (recipeObj.firebaseKey) setFormInput(recipeObj);
     console.warn(recipeObj);
   }, [recipeObj, user]);
 
+  React.useEffect(() => {
+    console.warn(formInput);
+  }, [formInput]);
+
+  // function takes in firebase key from selected value
+  const handleCategoryChange = (firebaseKey) => {
+    setFormInput({
+      ...formInput,
+      categoryId: firebaseKey,
+    });
+  };
+
   const handleChange = (e) => {
-    setValue(e.target.value);
+    console.warn(e);
+    // setValue(0);
     // destructuring
     const { name, checked } = e.target;
-    const newInputValue = e.target.type === 'favorite' ? checked : e.target.value;
+    console.warn(checked);
+    const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
+    console.warn(newInputValue);
     setFormInput((prevState) => ({
       ...prevState,
       [name]: newInputValue,
@@ -62,12 +82,10 @@ export default function RecipeForm({ recipeObj }) {
       const payload = { ...formInput, uid: user.uid };
       console.warn('payload', payload);
       createNewRecipe(payload).then(({ name }) => {
-        const firebaseKey = name;
-        console.warn('firebasekey', firebaseKey);
-        // const firebase = { firebaseKey: name };
-        // updateRecipe(patchPayload).then(() => {
-        //   router.push('/recipe');
-        // });
+        const patchPayload = { firebaseKey: name };
+        updateRecipe(patchPayload).then(() => {
+          router.push('/recipe');
+        });
       });
     }
   };
@@ -116,14 +134,6 @@ export default function RecipeForm({ recipeObj }) {
             required
           />
           <Input
-            name="categoryId"
-            placeholder="Category"
-            variant="standard"
-            // inputProps={formInput.ingredients}
-            onChange={handleChange}
-            required
-          />
-          <Input
             name="author"
             placeholder="Recipe Creator"
             variant="standard"
@@ -140,17 +150,31 @@ export default function RecipeForm({ recipeObj }) {
             required
           />
         </Grid>
+
+        <Autocomplete
+          disablePortal
+          id="category_dropdown"
+          name="categoryId"
+          options={categoriesList}
+          getOptionSelected={(option, v) => option.firebaseKey === v.firebaseKey}
+          onChange={(event, selectedOption) => handleCategoryChange(selectedOption ? selectedOption.firebaseKey : '')}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Category" />}
+        />
         <Grid>
           <FormControl>
             <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="servings"
-              value={value}
               onChange={handleChange}
             >
               <FormControlLabel value="1" control={<Radio />} label="1" />
               <FormControlLabel value="2" control={<Radio />} label="2" />
+              <FormControlLabel value="4" control={<Radio />} label="4" />
+              <FormControlLabel value="6" control={<Radio />} label="6" />
+              <FormControlLabel value="8" control={<Radio />} label="8" />
+              <FormControlLabel value="10" control={<Radio />} label="10" />
             </RadioGroup>
           </FormControl>
         </Grid>
