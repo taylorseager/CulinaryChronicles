@@ -1,5 +1,6 @@
 import {
-  Card, CardContent, CardMedia, Typography,
+  Button,
+  Card, CardActions, CardContent, CardMedia, Stack, Typography,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -32,10 +33,10 @@ export default function ViewSingleRecipeDetails() {
   }, [firebaseKey]);
 
   return (
-    <Card sx={{ minWidth: 275, maxWidth: 400 }}>
+    <Card sx={{ minWidth: 275, maxWidth: 500 }}>
       <CardMedia
         component="img"
-        height="194"
+        height="250"
         image={recipeDetails.image}
         alt={recipeDetails.image}
       />
@@ -56,11 +57,19 @@ export default function ViewSingleRecipeDetails() {
           Category: {recipeDetails.categoryName}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Description: {recipeDetails.description}
+          Ingredients: {recipeDetails.ingredients}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} component="div">
+          Directions: {recipeDetails.directions}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Favorite: {recipeDetails.favorite ? 'Yes' : 'No'}
         </Typography>
+        <CardActions>
+          <Stack spacing={2} direction="row">
+            <Button href={`/recipe/edit/${recipeDetails.firebaseKey}`} variant="contained">Edit</Button>
+          </Stack>
+        </CardActions>
       </CardContent>
     </Card>
   );

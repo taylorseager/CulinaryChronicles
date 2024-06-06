@@ -144,6 +144,14 @@ export default function RecipeForm({ recipeObj }) {
             required
           />
           <Input
+            name="directions"
+            placeholder="Directions"
+            variant="standard"
+            value={formInput.directions}
+            onChange={handleChange}
+            required
+          />
+          <Input
             name="author"
             placeholder="Recipe Creator"
             variant="standard"
