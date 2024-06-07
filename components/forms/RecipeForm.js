@@ -207,7 +207,7 @@ export default function RecipeForm({ recipeObj }) {
           )}
           label="Favorite"
         />
-        <Button type="submit" variant="contained">Submit</Button>
+        <Button type="submit" variant="contained">{recipeObj[firebaseKey] ? 'Update' : 'Submit'}</Button>
       </Grid>
     </form>
   );
