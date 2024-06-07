@@ -102,6 +102,7 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* checking if recipeObj main key is firebaseKey */}
       <h1>{recipeObj[firebaseKey] ? 'Update' : 'Create'} Recipe</h1>
       <Grid container rowSpacing={8}>
         <Grid item xs={8}>
