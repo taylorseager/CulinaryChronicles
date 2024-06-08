@@ -10,15 +10,9 @@ import { deleteRecipe, getRecipes } from '../api/recipeData';
 // import { useRouter } from 'next/router';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
-  console.warn(recipeObj);
-  // const router = useRouter();
-  // const { firebaseKey } = router.query;
-
   const deleteThisRecipe = () => {
-    console.warn(recipeObj);
     if (window.confirm(`Are you sure you want to delete this family heirloom: ${recipeObj.title}?`)) {
       deleteRecipe(recipeObj.firebaseKey).then(() => {
-        console.warn('firebaseKey', recipeObj.firebaseKey);
         onUpdate(getRecipes);
       });
     }
@@ -40,11 +34,8 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
           Total Time: {recipeObj.totalTime} (mins)
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Servings: {recipeObj.servings}
+          Servings: {(recipeObj.servings)}
         </Typography>
-        {/* <Typography sx={{ fontSize: 14 }} component="div">
-          Category: {categoryObj.firebaseKey}
-        </Typography> */}
         <Typography sx={{ fontSize: 14 }} component="div">
           Description: {recipeObj.description}
         </Typography>
@@ -67,7 +58,7 @@ RecipeCard.propTypes = {
   recipeObj: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
-    servings: PropTypes.string,
+    servings: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,

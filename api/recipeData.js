@@ -41,7 +41,6 @@ const createNewRecipe = (payload) => new Promise((resolve, reject) => {
 });
 
 const updateRecipe = (payload) => new Promise((resolve, reject) => {
-  console.warn('promise', payload);
   fetch(`${endpoint}/recipes/${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
