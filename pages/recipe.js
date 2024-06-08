@@ -10,7 +10,6 @@ export default function ViewRecipes() {
 
   const getAllRecipes = () => {
     getRecipes(user.uid).then((data) => {
-      console.warn(data);
       setRecipes(data);
     });
   };

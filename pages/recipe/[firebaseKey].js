@@ -17,7 +17,6 @@ export default function ViewSingleRecipeDetails() {
 
   useEffect(() => {
     getSingleRecipe(firebaseKey).then((recipe) => {
-      console.warn(recipe);
       const updatedRecipe = { ...recipe[firebaseKey] };
       getCategories().then((categories) => {
         categories.forEach((category) => {
@@ -29,7 +28,6 @@ export default function ViewSingleRecipeDetails() {
       });
       // const categoriesArray = categories;
     });
-    console.warn('firebaseKey', firebaseKey);
   }, [firebaseKey]);
 
   return (

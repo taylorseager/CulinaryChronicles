@@ -26,8 +26,8 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  const [formInput, setFormInput] = React.useState({});
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  const [formInput, setFormInput] = React.useState(initialState);
+  const [selectedCategory, setSelectedCategory] = React.useState({ categoryType: '' });
   const [categories, setCategories] = React.useState([]);
   const router = useRouter();
   const { user } = useAuth();
@@ -76,6 +76,7 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleChange = (e) => {
     const { name, checked } = e.target;
+    // for switch (favorite toggle)
     const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
     setFormInput((prevState) => ({
       ...prevState,
@@ -172,6 +173,7 @@ export default function RecipeForm({ recipeObj }) {
           name="categoryId"
           options={categories}
           getOptionLabel={(option) => option.categoryType}
+          isOptionEqualToValue={(option, value) => option.firebaseKey === value.firebaseKey}
           value={selectedCategory}
           onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
           sx={{ width: 300 }}
@@ -218,7 +220,7 @@ RecipeForm.propTypes = {
   recipeObj: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
-    servings: PropTypes.number,
+    servings: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     totalTime: PropTypes.string,
     categoryId: PropTypes.string,
     description: PropTypes.string,
