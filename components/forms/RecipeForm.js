@@ -104,7 +104,6 @@ export default function RecipeForm({ recipeObj }) {
             variant="standard"
             value={formInput.totalTime}
             onChange={handleChange}
-            // {...register('totalTime')}
             required
           />
           <Input
@@ -160,7 +159,6 @@ export default function RecipeForm({ recipeObj }) {
           value={selectedCategory}
           onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
           sx={{ width: 300 }}
-          // requirement of autocomplete; defines how to render the input field
           renderInput={(params) => <TextField {...params} label="Category" />}
         />
         )}
@@ -171,7 +169,6 @@ export default function RecipeForm({ recipeObj }) {
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="servings"
               onChange={handleChange}
-              // makes sure input is a string
               value={String(formInput.servings)}
             >
               <FormControlLabel value="1" control={<Radio />} label="1" />

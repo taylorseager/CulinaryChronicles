@@ -2,7 +2,6 @@ import { clientCredentials } from '../utils/client';
 
 const endpoint = clientCredentials.databaseURL;
 
-// Pull all recipes from firebase
 const getRecipes = (uid) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/recipes.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
@@ -33,7 +32,7 @@ const createNewRecipe = (payload) => new Promise((resolve, reject) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload), // Pass recipe data in the request body
+    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))
