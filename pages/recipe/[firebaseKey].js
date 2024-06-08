@@ -4,13 +4,11 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-// import viewRecipeDetails from '../../api/meregedData';
 import { getSingleRecipe } from '../../api/recipeData';
 import getCategories from '../../api/categoryData';
 
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = React.useState({});
-  // const [categories, setCategories] = React.useState({});
 
   const router = useRouter();
   const { firebaseKey } = router.query;
@@ -26,7 +24,6 @@ export default function ViewSingleRecipeDetails() {
           }
         });
       });
-      // const categoriesArray = categories;
     });
   }, [firebaseKey]);
 

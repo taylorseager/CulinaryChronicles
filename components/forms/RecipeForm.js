@@ -34,39 +34,26 @@ export default function RecipeForm({ recipeObj }) {
   const { firebaseKey } = router.query;
 
   React.useEffect(() => {
-    // Set Categories // returns category array from api call
     getCategories().then((returnedCategories) => {
-      // represents default category if one is not set
-      // .find matches categoryType to default render aka sides
       const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
-      // sets default category (sides)
       setSelectedCategory(category);
-      // sets all the categories for autocomplete dropdown
       setCategories(returnedCategories);
     });
 
-    // Editing a Category
-    // checking if recipeObj is an object (first part); (second part) if main key is a firebaseKey
     if (recipeObj && recipeObj[firebaseKey]) {
-      // get all categories, and setting category state for dropdown
       getCategories().then((returnedCategories) => {
         setCategories(returnedCategories);
-        // filtering thru category array to check if the category firebaseKey matches the categoryId on the recipe data
         returnedCategories.forEach((category) => {
           if (category.firebaseKey === recipeObj[firebaseKey].categoryId) {
-            // set the selected category from downdown to that firebaseKey
             setSelectedCategory(category);
           }
         });
       });
-      // sets the rest of the form values based on the firebaseKey
       setFormInput(recipeObj[firebaseKey]);
     }
   }, [firebaseKey, recipeObj]);
 
-  // function takes in firebaseKey from selected value
   const handleCategoryChange = (category) => {
-    // sets selected category
     setSelectedCategory(category);
     setFormInput({
       ...formInput,
@@ -76,7 +63,6 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleChange = (e) => {
     const { name, checked } = e.target;
-    // for switch (favorite toggle)
     const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
     setFormInput((prevState) => ({
       ...prevState,
@@ -86,8 +72,6 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // checking in recipeObj exists - is the main key; second checks if firebaseky exists within the recipeObj
-    // checking to see if it's a valid object
     if (recipeObj[firebaseKey] && recipeObj[firebaseKey].firebaseKey) {
       updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj[firebaseKey].firebaseKey}`));
     } else {
@@ -103,7 +87,6 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* checking if recipeObj main key is firebaseKey */}
       <h1>{recipeObj[firebaseKey] ? 'Update' : 'Create'} Recipe</h1>
       <Grid container rowSpacing={8}>
         <Grid item xs={8}>
@@ -121,7 +104,6 @@ export default function RecipeForm({ recipeObj }) {
             variant="standard"
             value={formInput.totalTime}
             onChange={handleChange}
-            // {...register('totalTime')}
             required
           />
           <Input
@@ -177,7 +159,6 @@ export default function RecipeForm({ recipeObj }) {
           value={selectedCategory}
           onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
           sx={{ width: 300 }}
-          // requirement of autocomplete; defines how to render the input field
           renderInput={(params) => <TextField {...params} label="Category" />}
         />
         )}
@@ -188,7 +169,6 @@ export default function RecipeForm({ recipeObj }) {
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="servings"
               onChange={handleChange}
-              // makes sure input is a string
               value={String(formInput.servings)}
             >
               <FormControlLabel value="1" control={<Radio />} label="1" />
