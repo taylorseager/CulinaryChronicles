@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import { CardMedia, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { deleteRecipe, getRecipes } from '../api/recipeData';
-// import { useRouter } from 'next/router';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
   const deleteThisRecipe = () => {
