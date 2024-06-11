@@ -9,23 +9,21 @@ import getCategories from '../../api/categoryData';
 
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = React.useState({});
+  const [categoryDetails, setCategoryDetails] = React.useState({});
 
   const router = useRouter();
   const { firebaseKey } = router.query;
 
   useEffect(() => {
-    getSingleRecipe(firebaseKey).then((recipe) => {
-      const updatedRecipe = { ...recipe[firebaseKey] };
-      getCategories().then((categories) => {
-        categories.forEach((category) => {
-          if (category.firebaseKey === updatedRecipe.categoryId) {
-            updatedRecipe.categoryName = category.categoryType;
-            setRecipeDetails(updatedRecipe);
-          }
-        });
-      });
-    });
+    getSingleRecipe(firebaseKey).then(setRecipeDetails);
   }, [firebaseKey]);
+
+  useEffect(() => {
+    getCategories().then((categories) => {
+      const cat = categories.find((c) => c.firebaseKey === recipeDetails.categoryId);
+      setCategoryDetails(cat);
+    });
+  }, [recipeDetails]);
 
   return (
     <Card sx={{ minWidth: 275, maxWidth: 500 }}>
@@ -49,7 +47,7 @@ export default function ViewSingleRecipeDetails() {
           Servings: {recipeDetails.servings}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Category: {recipeDetails.categoryName}
+          Category: {categoryDetails?.categoryType}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Ingredients: {recipeDetails.ingredients}
