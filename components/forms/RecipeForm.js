@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Switch from '@mui/material/Switch';
@@ -26,36 +26,48 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  const [formInput, setFormInput] = React.useState(initialState);
-  const [selectedCategory, setSelectedCategory] = React.useState({ });
-  const [categories, setCategories] = React.useState([]);
+  const [formInput, setFormInput] = useState(initialState);
+  const [selectedCategory, setSelectedCategory] = useState({ categoryType: '' });
+  const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
   const { firebaseKey } = router.query;
 
+  useEffect(() => {
+    getCategories().then((returnedCategories) => {
+      const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
+      setSelectedCategory(category);
+      setCategories(returnedCategories);
+    });
+
+    if (recipeObj && recipeObj[firebaseKey]) {
+      getCategories().then((returnedCategories) => {
+        setCategories(returnedCategories);
+        returnedCategories.forEach((category) => {
+          if (category.firebaseKey === recipeObj[firebaseKey].categoryId) {
+            setSelectedCategory(category);
+          }
+        });
+      });
+      setFormInput(recipeObj[firebaseKey]);
+    }
+  }, [firebaseKey, recipeObj]);
+
   const handleCategoryChange = (category) => {
-    const cat = categories.find((c) => c.firebaseKey === category);
-    setSelectedCategory(cat);
+    setSelectedCategory(category);
+    setFormInput({
+      ...formInput,
+      categoryId: category.firebaseKey,
+    });
   };
 
-  React.useEffect(() => {
-    getCategories().then(setCategories);
-
-    if (recipeObj.firebaseKey) {
-      setFormInput(recipeObj);
-      handleCategoryChange(recipeObj?.categoryId);
-    }
-  }, [firebaseKey, recipeObj, selectedCategory]);
-
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.warn(e.target);
-    // const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
+    const { name, checked } = e.target;
+    const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
     setFormInput((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: newInputValue,
     }));
-    console.warn(name, value);
   };
 
   const handleSubmit = (e) => {
@@ -75,7 +87,7 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>{recipeObj.firebaseKey ? 'Update' : 'Create'} Recipe</h1>
+      <h1>{recipeObj[firebaseKey] ? 'Update' : 'Create'} Recipe</h1>
       <Grid container rowSpacing={8}>
         <Grid item xs={8}>
           <Input
@@ -136,20 +148,20 @@ export default function RecipeForm({ recipeObj }) {
           />
         </Grid>
 
+        {selectedCategory && (
         <Autocomplete
           disablePortal
           id="category_dropdown"
           name="categoryId"
-          options={categories.map((cat) => cat.categoryType)}
-          // getOptionLabel={(option) => option.categoryType === selectedCategory.categoryType}
-          isOptionEqualToValue={(option, value) => console.warn(option, value)}
-          inputValue={selectedCategory?.categoryType}
-          value={formInput.categoryId}
-          onChange={handleChange}
+          options={categories}
+          getOptionLabel={(option) => option.categoryType}
+          isOptionEqualToValue={(option, value) => option.firebaseKey === value.firebaseKey}
+          value={selectedCategory}
+          onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Category" />}
         />
-
+        )}
         <Grid>
           <FormControl>
             <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
@@ -178,7 +190,7 @@ export default function RecipeForm({ recipeObj }) {
           )}
           label="Favorite"
         />
-        <Button type="submit" variant="contained">{recipeObj.firebaseKey ? 'Update' : 'Submit'}</Button>
+        <Button type="submit" variant="contained">{recipeObj[firebaseKey] ? 'Update' : 'Submit'}</Button>
       </Grid>
     </form>
   );
