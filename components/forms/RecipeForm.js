@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Switch from '@mui/material/Switch';
@@ -26,14 +26,14 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  const [formInput, setFormInput] = React.useState(initialState);
-  const [selectedCategory, setSelectedCategory] = React.useState({ categoryType: '' });
-  const [categories, setCategories] = React.useState([]);
+  const [formInput, setFormInput] = useState(initialState);
+  const [selectedCategory, setSelectedCategory] = useState({ categoryType: '' });
+  const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
   const { firebaseKey } = router.query;
 
-  React.useEffect(() => {
+  useEffect(() => {
     getCategories().then((returnedCategories) => {
       const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
       setSelectedCategory(category);

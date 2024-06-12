@@ -15,7 +15,7 @@ const getRecipes = (uid) => new Promise((resolve, reject) => {
 });
 
 const getSingleRecipe = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/recipes.json?orderBy="firebaseKey"&equalTo="${firebaseKey}"`, {
+  fetch(`${endpoint}/recipes/${firebaseKey}.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
