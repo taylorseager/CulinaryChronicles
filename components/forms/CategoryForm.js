@@ -21,12 +21,10 @@ export default function CategoryForm({ categoryObj }) {
     if (categoryObj.firebaseKey) {
       setFormInput(categoryObj);
     }
-    console.warn('catObj', categoryObj);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryObj, user]);
 
   const handleChange = (e) => {
-    console.warn('handlechange', e);
     const { name, value } = e.target;
     setFormInput((prevState) => ({
       ...prevState,
@@ -51,33 +49,35 @@ export default function CategoryForm({ categoryObj }) {
 
   return (
     <>
-      <Typography component="h1" variant="h5">{categoryObj.firebaseKey ? 'Update' : 'Create'} Category
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              fullWidth
-              label="Name"
-              name="categoryType"
-              value={formInput.categoryType}
-              onChange={handleChange}
-            />
+      <form onSubmit={handleSubmit}>
+        <Typography component="h1" variant="h5">{categoryObj.firebaseKey ? 'Update' : 'Create'} Category
+        </Typography>
+        <Box component="form" sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                label="Name"
+                name="categoryType"
+                value={formInput.categoryType}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                label="Image"
+                name="image"
+                value={formInput.image}
+                onChange={handleChange}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              fullWidth
-              label="Image"
-              name="image"
-              value={formInput.image}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-      <Button type="submit" variant="contained">{categoryObj.firebaseKey ? 'Update' : 'Submit'}</Button>
+        </Box>
+        <Button type="submit" variant="contained">{categoryObj.firebaseKey ? 'Update' : 'Submit'}</Button>
+      </form>
     </>
   );
 }
