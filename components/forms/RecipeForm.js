@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
 import { createNewRecipe, updateRecipe } from '../../api/recipeData';
-import getCategories from '../../api/categoryData';
+import { getCategories } from '../../api/categoryData';
 
 const initialState = {
   image: '',
