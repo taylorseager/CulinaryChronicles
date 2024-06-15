@@ -1,34 +1,32 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 import {
   Box, Button, Grid, TextField, Typography,
 } from '@mui/material';
-// import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
+import { createNewCategory, updateCategory } from '../../api/categoryData';
 
 const initialState = {
   categoryType: '',
   image: '',
-  firebaseKey: '',
 };
 export default function CategoryForm({ categoryObj }) {
   const [formInput, setFormInput] = useState(initialState);
-  // const router = useRouter();
+  const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
-    // eslint-disable-next-line react/prop-types
+    console.warn('useEffect');
     if (categoryObj.firebaseKey) {
       setFormInput(categoryObj);
     }
+    console.warn('catObj', categoryObj);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryObj, user]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   const handleChange = (e) => {
+    console.warn('handlechange', e);
     const { name, value } = e.target;
     setFormInput((prevState) => ({
       ...prevState,
@@ -36,19 +34,34 @@ export default function CategoryForm({ categoryObj }) {
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (categoryObj.firebaseKey) {
+      updateCategory(formInput).then(() => router.push('/category'));
+    } else {
+      const payload = { ...formInput, uid: user.uid };
+      createNewCategory(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+        updateCategory(patchPayload).then(() => {
+          router.push('/category');
+        });
+      });
+    }
+  };
+
   return (
     <>
-      <Typography component="h1" variant="h5">{categoryObj.firebaseKey ? 'Update' : 'Create'}
+      <Typography component="h1" variant="h5">{categoryObj.firebaseKey ? 'Update' : 'Create'} Category
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              name="categoryType"
               required
               fullWidth
               label="Name"
-              value={formInput.title}
+              name="categoryType"
+              value={formInput.categoryType}
               onChange={handleChange}
             />
           </Grid>
@@ -56,9 +69,9 @@ export default function CategoryForm({ categoryObj }) {
             <TextField
               required
               fullWidth
-              label="image"
-              name="Image"
-              value={formInput.title}
+              label="Image"
+              name="image"
+              value={formInput.image}
               onChange={handleChange}
             />
           </Grid>
