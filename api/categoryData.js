@@ -41,7 +41,7 @@ const updateCategory = (payload) => new Promise((resolve, reject) => {
 });
 
 const deleteCategory = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Categories/${firebaseKey}.json`, {
+  fetch(`${endpoint}/category/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
