@@ -1,14 +1,19 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
-// import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-// import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { Button, CardMedia, Stack } from '@mui/material';
-// import { useRouter } from 'next/router';
+import { deleteCategory, getCategories } from '../api/categoryData';
 
-export default function CategoryCard({ categoryObj }) {
+export default function CategoryCard({ categoryObj, onUpdate }) {
+  const deleteThisCategory = () => {
+    window.confirm(`Are you sure you want to delete ${categoryObj.categoryType}?`);
+    deleteCategory(categoryObj.firebaseKey).then(() => {
+      onUpdate(getCategories);
+    });
+  };
+
   return (
     <Card sx={{ minWidth: 275, maxWidth: 400 }}>
       <CardMedia
@@ -23,6 +28,7 @@ export default function CategoryCard({ categoryObj }) {
         </Typography>
         <Stack spacing={2} direction="row">
           <Button href={`/category/edit/${categoryObj.firebaseKey}`} variant="contained">Edit</Button>
+          <Button variant="contained" color="error" onClick={deleteThisCategory}>Delete</Button>
         </Stack>
       </CardContent>
     </Card>
@@ -35,4 +41,5 @@ CategoryCard.propTypes = {
     categoryType: PropTypes.string,
     firebaseKey: PropTypes.string,
   }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
