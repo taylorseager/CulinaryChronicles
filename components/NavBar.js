@@ -24,6 +24,9 @@ export default function NavBar() {
             <Link passHref href="/recipe/newRecipe">
               <Nav.Link>Create Recipe</Nav.Link>
             </Link>
+            <Link passHref href="/category/newCategory">
+              <Nav.Link>Create Category</Nav.Link>
+            </Link>
             <Button variant="danger" onClick={signOut}>Sign Out</Button>
           </Nav>
         </Navbar.Collapse>
