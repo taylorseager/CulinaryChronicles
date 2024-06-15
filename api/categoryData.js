@@ -2,16 +2,32 @@ import { clientCredentials } from '../utils/client';
 
 const endpoint = clientCredentials.databaseURL;
 
-const getCategories = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/Categories.json`, {
+const getCategories = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/Categories.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // 'data' will be an object where keys are firebaseKeys and values are category objects
+      if (data) {
+        // Extract values from the categories object and convert to array
+        const categoriesArray = Object.values(data);
+        resolve(categoriesArray);
+      } else {
+        throw new Error('Data is empty or undefined');
+      }
+    })
+    .catch((error) => {
+      reject(error);
+    });
 });
 
 const createNewCategory = (payload) => new Promise((resolve, reject) => {
