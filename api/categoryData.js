@@ -10,6 +10,7 @@ const getCategories = (uid) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => {
+      console.warn(response);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

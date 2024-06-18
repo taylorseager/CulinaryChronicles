@@ -34,14 +34,14 @@ export default function RecipeForm({ recipeObj }) {
   const { firebaseKey } = router.query;
 
   useEffect(() => {
-    getCategories().then((returnedCategories) => {
+    getCategories(user.uid).then((returnedCategories) => {
       const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
       setSelectedCategory(category);
       setCategories(returnedCategories);
     });
 
     if (recipeObj && recipeObj[firebaseKey]) {
-      getCategories().then((returnedCategories) => {
+      getCategories(user.uid).then((returnedCategories) => {
         setCategories(returnedCategories);
         returnedCategories.forEach((category) => {
           if (category.firebaseKey === recipeObj[firebaseKey].categoryId) {
@@ -51,7 +51,7 @@ export default function RecipeForm({ recipeObj }) {
       });
       setFormInput(recipeObj[firebaseKey]);
     }
-  }, [firebaseKey, recipeObj]);
+  }, [firebaseKey, recipeObj, user.uid]);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -86,7 +86,7 @@ export default function RecipeForm({ recipeObj }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form id="recipeForm" onSubmit={handleSubmit}>
       <h1>{recipeObj[firebaseKey] ? 'Update' : 'Create'} Recipe</h1>
       <Grid container rowSpacing={8}>
         <Grid item xs={8}>
@@ -164,7 +164,7 @@ export default function RecipeForm({ recipeObj }) {
         )}
         <Grid>
           <FormControl>
-            <FormLabel id="demo-controlled-radio-buttons-group">Servings</FormLabel>
+            <FormLabel id="servingsTitle">Servings</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="servings"

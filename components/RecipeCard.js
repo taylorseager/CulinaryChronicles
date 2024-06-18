@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CardMedia, Stack } from '@mui/material';
+import { Checkbox, CardMedia, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { deleteRecipe, getRecipes } from '../api/recipeData';
 
@@ -41,6 +41,9 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
         <Typography sx={{ fontSize: 14 }} component="div">
           Favorite: {recipeObj.favorite ? 'Yes' : 'No'}
         </Typography>
+        <Checkbox sx={{ fontSize: 14 }} component="div">
+          Public: {recipeObj.public ? 'Yes' : 'No'}
+        </Checkbox>
       </CardContent>
       <CardActions>
         <Stack spacing={2} direction="row">
@@ -62,7 +65,9 @@ RecipeCard.propTypes = {
     categoryId: PropTypes.string,
     description: PropTypes.string,
     favorite: PropTypes.bool,
+    public: PropTypes.bool,
     firebaseKey: PropTypes.string,
+    uid: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
