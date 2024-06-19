@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import CategoryCard from '../components/CategoryCard';
 import { useAuth } from '../utils/context/authContext';
 import { getCategories } from '../api/categoryData';
 
 function ViewAllCategories() {
-  const [categories, setCategories] = React.useState([]);
+  const [categories, setCategories] = useState([]);
   const { user } = useAuth();
 
   const getAllCategories = () => {

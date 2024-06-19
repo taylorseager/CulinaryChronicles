@@ -2,15 +2,16 @@ import {
   Button,
   Card, CardActions, CardContent, CardMedia, Stack, Typography,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getSingleRecipe } from '../../api/recipeData';
-import getCategories from '../../api/categoryData';
+import { getCategories } from '../../api/categoryData';
+// import { useAuth } from '../../utils/context/authContext';
 
 export default function ViewSingleRecipeDetails() {
-  const [recipeDetails, setRecipeDetails] = React.useState({});
-  const [categoryDetails, setCategoryDetails] = React.useState({});
-
+  const [recipeDetails, setRecipeDetails] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
+  // const { user } = useAuth();
   const router = useRouter();
   const { firebaseKey } = router.query;
 

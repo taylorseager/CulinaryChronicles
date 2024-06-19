@@ -5,6 +5,7 @@ import Switch from '@mui/material/Switch';
 import FormControl from '@mui/material/FormControl';
 import {
   Autocomplete,
+  Box,
   Button, FormControlLabel, FormLabel, Grid, Input, Radio, RadioGroup,
   TextField,
 } from '@mui/material';
@@ -26,6 +27,7 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
+  console.warn('recipeObj top', recipeObj);
   const [formInput, setFormInput] = useState(initialState);
   const [selectedCategory, setSelectedCategory] = useState({ categoryType: '' });
   const [categories, setCategories] = useState([]);
@@ -40,16 +42,17 @@ export default function RecipeForm({ recipeObj }) {
       setCategories(returnedCategories);
     });
 
-    if (recipeObj && recipeObj[firebaseKey]) {
+    if (recipeObj && recipeObj.firebaseKey) {
+      console.warn('useEffect', recipeObj);
       getCategories(user.uid).then((returnedCategories) => {
         setCategories(returnedCategories);
         returnedCategories.forEach((category) => {
-          if (category.firebaseKey === recipeObj[firebaseKey].categoryId) {
+          if (category.firebaseKey === recipeObj.firebaseKey.categoryId) {
             setSelectedCategory(category);
           }
         });
       });
-      setFormInput(recipeObj[firebaseKey]);
+      setFormInput(recipeObj.firebaseKey);
     }
   }, [firebaseKey, recipeObj, user.uid]);
 
@@ -72,10 +75,12 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (recipeObj[firebaseKey] && recipeObj[firebaseKey].firebaseKey) {
-      updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj[firebaseKey].firebaseKey}`));
+    if (recipeObj.firebaseKey) {
+      console.warn('handle submit', recipeObj);
+      updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid };
+      console.warn('payload', payload);
       createNewRecipe(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateRecipe(patchPayload).then(() => {
@@ -87,111 +92,113 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <form id="recipeForm" onSubmit={handleSubmit}>
-      <h1>{recipeObj[firebaseKey] ? 'Update' : 'Create'} Recipe</h1>
-      <Grid container rowSpacing={8}>
-        <Grid item xs={8}>
-          <Input
-            name="title"
-            placeholder="Recipe Name"
-            variant="standard"
-            value={formInput.title}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            name="totalTime"
-            placeholder="Total Time Required"
-            variant="standard"
-            value={formInput.totalTime}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            name="description"
-            placeholder="Description"
-            variant="standard"
-            value={formInput.description}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            name="ingredients"
-            placeholder="Ingredients"
-            variant="standard"
-            value={formInput.ingredients}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            name="directions"
-            placeholder="Directions"
-            variant="standard"
-            value={formInput.directions}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            name="author"
-            placeholder="Recipe Creator"
-            variant="standard"
-            value={formInput.author}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            name="image"
-            placeholder="Recipe Image"
-            variant="standard"
-            value={formInput.image}
-            onChange={handleChange}
-            required
-          />
-        </Grid>
-
-        {selectedCategory && (
-        <Autocomplete
-          disablePortal
-          id="category_dropdown"
-          name="categoryId"
-          options={categories}
-          getOptionLabel={(option) => option.categoryType}
-          isOptionEqualToValue={(option, value) => option.firebaseKey === value.firebaseKey}
-          value={selectedCategory}
-          onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Category" />}
-        />
-        )}
-        <Grid>
-          <FormControl>
-            <FormLabel id="servingsTitle">Servings</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="servings"
+      <h1>{recipeObj.firebaseKey ? 'Update' : 'Create'} Recipe</h1>
+      <Box sx={{ mt: 3 }}>
+        <Grid container rowSpacing={8}>
+          <Grid item xs={8}>
+            <Input
+              name="title"
+              placeholder="Recipe Name"
+              variant="standard"
+              value={formInput.title}
               onChange={handleChange}
-              value={String(formInput.servings)}
-            >
-              <FormControlLabel value="1" control={<Radio />} label="1" />
-              <FormControlLabel value="2" control={<Radio />} label="2" />
-              <FormControlLabel value="4" control={<Radio />} label="4" />
-              <FormControlLabel value="6" control={<Radio />} label="6" />
-              <FormControlLabel value="8" control={<Radio />} label="8" />
-              <FormControlLabel value="10" control={<Radio />} label="10" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-        <FormControlLabel
-          control={(
-            <Switch
-              name="favorite"
-              checked={formInput.favorite}
-              onChange={handleChange}
+              required
             />
+            <Input
+              name="totalTime"
+              placeholder="Total Time Required"
+              variant="standard"
+              value={formInput.totalTime}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              name="description"
+              placeholder="Description"
+              variant="standard"
+              value={formInput.description}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              name="ingredients"
+              placeholder="Ingredients"
+              variant="standard"
+              value={formInput.ingredients}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              name="directions"
+              placeholder="Directions"
+              variant="standard"
+              value={formInput.directions}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              name="author"
+              placeholder="Recipe Creator"
+              variant="standard"
+              value={formInput.author}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              name="image"
+              placeholder="Recipe Image"
+              variant="standard"
+              value={formInput.image}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+
+          {selectedCategory && (
+          <Autocomplete
+            disablePortal
+            id="category_dropdown"
+            name="categoryId"
+            options={categories}
+            getOptionLabel={(option) => option.categoryType}
+            isOptionEqualToValue={(option, value) => option.firebaseKey === value.firebaseKey}
+            value={selectedCategory}
+            onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Category" />}
+          />
           )}
-          label="Favorite"
-        />
-        <Button type="submit" variant="contained">{recipeObj[firebaseKey] ? 'Update' : 'Submit'}</Button>
-      </Grid>
+          <Grid>
+            <FormControl>
+              <FormLabel id="servingsTitle">Servings</FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="servings"
+                onChange={handleChange}
+                value={String(formInput.servings)}
+              >
+                <FormControlLabel value="1" control={<Radio />} label="1" />
+                <FormControlLabel value="2" control={<Radio />} label="2" />
+                <FormControlLabel value="4" control={<Radio />} label="4" />
+                <FormControlLabel value="6" control={<Radio />} label="6" />
+                <FormControlLabel value="8" control={<Radio />} label="8" />
+                <FormControlLabel value="10" control={<Radio />} label="10" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <FormControlLabel
+            control={(
+              <Switch
+                name="favorite"
+                checked={formInput.favorite}
+                onChange={handleChange}
+              />
+          )}
+            label="Favorite"
+          />
+          <Button type="submit" variant="contained">{recipeObj[firebaseKey] ? 'Update' : 'Submit'}</Button>
+        </Grid>
+      </Box>
     </form>
   );
 }
