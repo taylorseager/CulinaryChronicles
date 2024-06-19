@@ -36,7 +36,7 @@ export default function ViewSingleRecipeDetails() {
       />
       <CardContent>
         <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
-          Name: {recipeDetails.title}
+          Name: {recipeDetails.title}  {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Recipe Creator: {recipeDetails.author}
@@ -55,9 +55,6 @@ export default function ViewSingleRecipeDetails() {
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Directions: {recipeDetails.directions}
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Favorite: {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
         </Typography>
         <CardActions>
           <Stack spacing={2} direction="row">

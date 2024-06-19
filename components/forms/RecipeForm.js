@@ -27,7 +27,6 @@ const initialState = {
 };
 
 export default function RecipeForm({ recipeObj }) {
-  console.warn('recipeObj top', recipeObj);
   const [formInput, setFormInput] = useState(initialState);
   const [selectedCategory, setSelectedCategory] = useState({ categoryType: '' });
   const [categories, setCategories] = useState([]);
@@ -43,7 +42,6 @@ export default function RecipeForm({ recipeObj }) {
     });
 
     if (recipeObj && recipeObj.firebaseKey) {
-      console.warn('useEffect', recipeObj);
       getCategories(user.uid).then((returnedCategories) => {
         setCategories(returnedCategories);
         returnedCategories.forEach((category) => {
@@ -66,7 +64,6 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleChange = (e) => {
     const { name, checked } = e.target;
-    console.warn(e.target);
     const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
     setFormInput((prevState) => ({
       ...prevState,
@@ -77,11 +74,9 @@ export default function RecipeForm({ recipeObj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (recipeObj.firebaseKey) {
-      console.warn('handle submit', recipeObj);
       updateRecipe(formInput).then(() => router.push(`/recipe/${recipeObj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid };
-      console.warn('payload', payload);
       createNewRecipe(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateRecipe(patchPayload).then(() => {
