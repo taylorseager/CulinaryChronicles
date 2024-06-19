@@ -4,10 +4,9 @@ import { useRouter } from 'next/router';
 import Switch from '@mui/material/Switch';
 import FormControl from '@mui/material/FormControl';
 import {
-  Autocomplete,
   Box,
-  Button, FormControlLabel, FormLabel, Grid, Input, Radio, RadioGroup,
-  TextField,
+  Button, FormControlLabel, FormLabel, Grid, Input, InputLabel, MenuItem, Radio, RadioGroup,
+  Select,
 } from '@mui/material';
 import { useAuth } from '../../utils/context/authContext';
 import { createNewRecipe, updateRecipe } from '../../api/recipeData';
@@ -34,6 +33,7 @@ export default function RecipeForm({ recipeObj }) {
   const { user } = useAuth();
   const { firebaseKey } = router.query;
 
+  // I'm sure something about this needs to be refactored?
   useEffect(() => {
     getCategories(user.uid).then((returnedCategories) => {
       const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
@@ -149,8 +149,30 @@ export default function RecipeForm({ recipeObj }) {
               required
             />
           </Grid>
-
-          {selectedCategory && (
+          {/* I'm able to get the categories options to show up but can't actually chose an option. */}
+          <FormControl fullWidth>
+            <InputLabel>Category</InputLabel>
+            <Select
+              id="category_dropdown"
+              value={selectedCategory}
+              label="Category"
+              onChange={handleCategoryChange}
+            >
+              <MenuItem value="">
+                {
+            categories.map((category) => (
+              <MenuItem
+                key={category.firebaseKey}
+                value={category.firebaseKey}
+              >
+                {category.categoryType}
+              </MenuItem>
+            ))
+}
+              </MenuItem>
+            </Select>
+          </FormControl>
+          {/* {selectedCategory && (
           <Autocomplete
             disablePortal
             id="category_dropdown"
@@ -163,7 +185,7 @@ export default function RecipeForm({ recipeObj }) {
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Category" />}
           />
-          )}
+          )} */}
           <Grid>
             <FormControl>
               <FormLabel id="servingsTitle">Servings</FormLabel>
