@@ -52,9 +52,13 @@ export default function RecipeForm({ recipeObj }) {
           }
         });
       });
-      setFormInput(recipeObj.firebaseKey);
+      setFormInput(recipeObj);
     }
   }, [firebaseKey, recipeObj, user.uid]);
+
+  useEffect(() => {
+    console.warn(formInput);
+  }, [formInput]);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -66,6 +70,7 @@ export default function RecipeForm({ recipeObj }) {
 
   const handleChange = (e) => {
     const { name, checked } = e.target;
+    console.warn(e.target);
     const newInputValue = e.target.type === 'checkbox' ? checked : e.target.value;
     setFormInput((prevState) => ({
       ...prevState,
@@ -196,7 +201,7 @@ export default function RecipeForm({ recipeObj }) {
           )}
             label="Favorite"
           />
-          <Button type="submit" variant="contained">{recipeObj[firebaseKey] ? 'Update' : 'Submit'}</Button>
+          <Button type="submit" variant="contained">{recipeObj.firebaseKey ? 'Update' : 'Submit'}</Button>
         </Grid>
       </Box>
     </form>
