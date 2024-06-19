@@ -1,3 +1,5 @@
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import {
   Button,
   Card, CardActions, CardContent, CardMedia, Stack, Typography,
@@ -6,12 +8,10 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getSingleRecipe } from '../../api/recipeData';
 import { getCategories } from '../../api/categoryData';
-// import { useAuth } from '../../utils/context/authContext';
 
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = useState({});
   const [categoryDetails, setCategoryDetails] = useState({});
-  // const { user } = useAuth();
   const router = useRouter();
   const { firebaseKey } = router.query;
 
@@ -57,7 +57,7 @@ export default function ViewSingleRecipeDetails() {
           Directions: {recipeDetails.directions}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
-          Favorite: {recipeDetails.favorite ? 'Yes' : 'No'}
+          Favorite: {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
         </Typography>
         <CardActions>
           <Stack spacing={2} direction="row">

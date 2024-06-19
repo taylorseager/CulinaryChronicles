@@ -56,10 +56,6 @@ export default function RecipeForm({ recipeObj }) {
     }
   }, [firebaseKey, recipeObj, user.uid]);
 
-  useEffect(() => {
-    console.warn(formInput);
-  }, [formInput]);
-
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setFormInput({
