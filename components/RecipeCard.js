@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Checkbox, CardMedia, Stack } from '@mui/material';
+import { CardMedia, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { deleteRecipe, getRecipes } from '../api/recipeData';
 
@@ -28,7 +28,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
       />
       <CardContent>
         <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
-          Name: {recipeObj.title}
+          {recipeObj.title}  {recipeObj.favorite ? <FavoriteIcon fontSize="medium" color="error" /> : <FavoriteBorderOutlinedIcon fontSize="medium" />}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Total Time: {recipeObj.totalTime} (mins)
@@ -39,12 +39,6 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
         <Typography sx={{ fontSize: 14 }} component="div">
           Description: {recipeObj.description}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          {recipeObj.favorite ? <FavoriteIcon fontSize="medium" color="error" /> : <FavoriteBorderOutlinedIcon fontSize="medium" />}
-        </Typography>
-        <Checkbox sx={{ fontSize: 14 }} component="div">
-          Public: {recipeObj.public ? 'Yes' : 'No'}
-        </Checkbox>
       </CardContent>
       <CardActions>
         <Stack spacing={2} direction="row">
