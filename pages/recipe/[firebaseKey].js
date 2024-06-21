@@ -6,25 +6,31 @@ import {
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getSingleRecipe } from '../../api/recipeData';
-import { getCategories } from '../../api/categoryData';
+// import { getSingleRecipe } from '../../api/recipeData';
+// import { getCategories } from '../../api/categoryData';
+import viewRecipeDetails from '../../api/meregedData';
 
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = useState({});
   const [categoryDetails, setCategoryDetails] = useState({});
+  console.warn(setCategoryDetails);
   const router = useRouter();
   const { firebaseKey } = router.query;
 
-  useEffect(() => {
-    getSingleRecipe(firebaseKey).then(setRecipeDetails);
-  }, [firebaseKey]);
+  // useEffect(() => {
+  //   getSingleRecipe(firebaseKey).then(setRecipeDetails);
+  // }, [firebaseKey]);
 
   useEffect(() => {
-    getCategories().then((categories) => {
-      const cat = categories.find((c) => c.firebaseKey === recipeDetails.categoryId);
-      setCategoryDetails(cat);
-    });
-  }, [recipeDetails]);
+    viewRecipeDetails(firebaseKey).then(setRecipeDetails);
+  }, [firebaseKey]);
+
+  // useEffect(() => {
+  //   getCategories().then((categories) => {
+  //     const cat = categories.find((c) => c.firebaseKey === recipeDetails.categoryId);
+  //     setCategoryDetails(cat);
+  //   });
+  // }, [recipeDetails]);
 
   return (
     <Card sx={{ minWidth: 275, maxWidth: 500 }}>
