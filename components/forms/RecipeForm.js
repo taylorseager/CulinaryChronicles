@@ -27,7 +27,7 @@ const initialState = {
 
 export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = useState(initialState);
-  const [selectedCategory, setSelectedCategory] = useState({ categoryType: '' });
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
@@ -54,11 +54,21 @@ export default function RecipeForm({ recipeObj }) {
     }
   }, [firebaseKey, recipeObj, user.uid]);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  // const handleCategoryChange = (category) => {
+  //   setSelectedCategory(category);
+  //   setFormInput({
+  //     ...formInput,
+  //     categoryId: category.firebaseKey,
+  //   });
+  // };
+
+  const handleCategoryChange = (event) => {
+    const categoryId = event.target.value;
+    const selected = categories.find((cat) => cat.firebaseKey === categoryId);
+    setSelectedCategory(selected);
     setFormInput({
       ...formInput,
-      categoryId: category.firebaseKey,
+      categoryId,
     });
   };
 
@@ -154,38 +164,20 @@ export default function RecipeForm({ recipeObj }) {
             <InputLabel>Category</InputLabel>
             <Select
               id="category_dropdown"
-              value={selectedCategory}
-              label="Category"
+              value={selectedCategory ? selectedCategory.firebaseKey : ''}
               onChange={handleCategoryChange}
             >
-              <MenuItem value="">
-                {
-            categories.map((category) => (
-              <MenuItem
-                key={category.firebaseKey}
-                value={category.firebaseKey}
-              >
-                {category.categoryType}
-              </MenuItem>
-            ))
-}
-              </MenuItem>
+              {categories.map((category) => (
+                <MenuItem
+                  key={category.firebaseKey}
+                  value={category.firebaseKey}
+                >
+                  {category.categoryType}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-          {/* {selectedCategory && (
-          <Autocomplete
-            disablePortal
-            id="category_dropdown"
-            name="categoryId"
-            options={categories}
-            getOptionLabel={(option) => option.categoryType}
-            isOptionEqualToValue={(option, value) => option.firebaseKey === value.firebaseKey}
-            value={selectedCategory}
-            onChange={(event, selectedOption) => handleCategoryChange(selectedOption || '')}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Category" />}
-          />
-          )} */}
+
           <Grid>
             <FormControl>
               <FormLabel id="servingsTitle">Servings</FormLabel>
