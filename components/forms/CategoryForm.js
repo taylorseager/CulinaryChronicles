@@ -20,8 +20,8 @@ export default function CategoryForm({ categoryObj }) {
     if (categoryObj.firebaseKey) {
       setFormInput(categoryObj);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryObj, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryObj, user.uid]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
