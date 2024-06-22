@@ -6,9 +6,9 @@ import {
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-// import { getSingleRecipe } from '../../api/recipeData';
-// import { getCategories } from '../../api/categoryData';
-import viewRecipeDetails from '../../api/meregedData';
+import { getSingleRecipe } from '../../api/recipeData';
+import { getCategories } from '../../api/categoryData';
+import { useAuth } from '../../utils/context/authContext';
 
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = useState({});
@@ -16,21 +16,23 @@ export default function ViewSingleRecipeDetails() {
   console.warn(setCategoryDetails);
   const router = useRouter();
   const { firebaseKey } = router.query;
-
-  // useEffect(() => {
-  //   getSingleRecipe(firebaseKey).then(setRecipeDetails);
-  // }, [firebaseKey]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    viewRecipeDetails(firebaseKey).then(setRecipeDetails);
+    getSingleRecipe(firebaseKey).then((recipe) => {
+      console.warn(recipe);
+      setRecipeDetails(recipe);
+    });
   }, [firebaseKey]);
 
-  // useEffect(() => {
-  //   getCategories().then((categories) => {
-  //     const cat = categories.find((c) => c.firebaseKey === recipeDetails.categoryId);
-  //     setCategoryDetails(cat);
-  //   });
-  // }, [recipeDetails]);
+  useEffect(() => {
+    getCategories(user.uid).then((categories) => {
+      console.warn('categories', categories);
+      const cat = categories.find((c) => c.firebaseKey === recipeDetails.categoryId);
+      console.warn('cat', cat);
+      setCategoryDetails(cat);
+    });
+  }, [recipeDetails, user.uid]);
 
   return (
     <Card sx={{ minWidth: 275, maxWidth: 500 }}>

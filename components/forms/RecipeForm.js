@@ -62,9 +62,15 @@ export default function RecipeForm({ recipeObj }) {
   //   });
   // };
 
+  useEffect(() => {
+    console.warn(formInput);
+  });
+
   const handleCategoryChange = (event) => {
     const categoryId = event.target.value;
+    console.warn('categoryid', categoryId);
     const selected = categories.find((cat) => cat.firebaseKey === categoryId);
+    console.warn('selected', selected);
     setSelectedCategory(selected);
     setFormInput({
       ...formInput,
