@@ -14,6 +14,7 @@ import {
   Button,
 } from '@mui/material';
 import { useState } from 'react';
+import { signOut } from '../utils/auth';
 
 const drawerWidth = 200;
 
@@ -38,7 +39,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   height: '100px',
-  // padding: theme.spacing(0, 1),
+  padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
@@ -99,6 +100,7 @@ export default function PersistentDrawerLeft() {
         <Button href="/recipe/newRecipe">Create Recipe</Button>
         <Button href="/category/newCategory">Create Category</Button>
         <Divider />
+        <Button variant="outlined" color="error" onClick={signOut}>Sign Out</Button>
       </Drawer>
     </Box>
   );

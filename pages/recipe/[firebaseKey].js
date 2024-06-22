@@ -13,23 +13,19 @@ import { useAuth } from '../../utils/context/authContext';
 export default function ViewSingleRecipeDetails() {
   const [recipeDetails, setRecipeDetails] = useState({});
   const [categoryDetails, setCategoryDetails] = useState({});
-  console.warn(setCategoryDetails);
   const router = useRouter();
   const { firebaseKey } = router.query;
   const { user } = useAuth();
 
   useEffect(() => {
     getSingleRecipe(firebaseKey).then((recipe) => {
-      console.warn(recipe);
       setRecipeDetails(recipe);
     });
   }, [firebaseKey]);
 
   useEffect(() => {
     getCategories(user.uid).then((categories) => {
-      console.warn('categories', categories);
       const cat = categories.find((c) => c.firebaseKey === recipeDetails.categoryId);
-      console.warn('cat', cat);
       setCategoryDetails(cat);
     });
   }, [recipeDetails, user.uid]);
@@ -46,10 +42,10 @@ export default function ViewSingleRecipeDetails() {
         alt={recipeDetails.image}
       />
       <CardContent>
-        <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
-          Name: {recipeDetails.title}  {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
+        <Typography sx={{ fontSize: 24 }} color="black">
+          {recipeDetails.title}  {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 14 }} color="black">
           Recipe Creator: {recipeDetails.author}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">

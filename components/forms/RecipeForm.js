@@ -33,7 +33,6 @@ export default function RecipeForm({ recipeObj }) {
   const { user } = useAuth();
   const { firebaseKey } = router.query;
 
-  // I'm sure something about this needs to be refactored?
   useEffect(() => {
     getCategories(user.uid).then((returnedCategories) => {
       const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
@@ -54,23 +53,9 @@ export default function RecipeForm({ recipeObj }) {
     }
   }, [firebaseKey, recipeObj, user.uid]);
 
-  // const handleCategoryChange = (category) => {
-  //   setSelectedCategory(category);
-  //   setFormInput({
-  //     ...formInput,
-  //     categoryId: category.firebaseKey,
-  //   });
-  // };
-
-  useEffect(() => {
-    console.warn(formInput);
-  });
-
   const handleCategoryChange = (event) => {
     const categoryId = event.target.value;
-    console.warn('categoryid', categoryId);
     const selected = categories.find((cat) => cat.firebaseKey === categoryId);
-    console.warn('selected', selected);
     setSelectedCategory(selected);
     setFormInput({
       ...formInput,
@@ -165,7 +150,6 @@ export default function RecipeForm({ recipeObj }) {
               required
             />
           </Grid>
-          {/* I'm able to get the categories options to show up but can't actually chose an option. */}
           <FormControl fullWidth>
             <InputLabel>Category</InputLabel>
             <Select
