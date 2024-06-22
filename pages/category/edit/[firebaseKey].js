@@ -14,5 +14,6 @@ export default function EditCategoryForm() {
 
   return (
     <CategoryForm categoryObj={editItem} />
+
   );
 }

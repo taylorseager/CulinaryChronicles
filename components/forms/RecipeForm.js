@@ -86,175 +86,178 @@ export default function RecipeForm({ recipeObj }) {
 
   return (
     <form id="recipeForm" onSubmit={handleSubmit}>
-      <h1>{recipeObj.firebaseKey ? 'Update' : 'Create'} Recipe</h1>
-      <Box sx={{ mt: 5 }}>
-        <Grid container spacing={1}>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              label="Recipe Name"
-              name="title"
-              variant="outlined"
-              value={formInput.title}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              label="Total Time Required"
-              name="totalTime"
-              variant="outlined"
-              value={formInput.totalTime}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              multiline
-              label="Description"
-              name="description"
-              variant="outlined"
-              value={formInput.description}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              multiline
-              label="Ingredients"
-              name="ingredients"
-              variant="outlined"
-              value={formInput.ingredients}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              multiline
-              label="Directions"
-              name="directions"
-              variant="outlined"
-              value={formInput.directions}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              label="Recipe Creator"
-              name="author"
-              variant="outlined"
-              value={formInput.author}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <TextField
-              required
-              fullWidth
-              label="Image"
-              name="image"
-              variant="outlined"
-              value={formInput.image}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel>Category</InputLabel>
-              <Select
-                id="category_dropdown"
-                label="Category"
-                value={formInput.categoryId}
-                onChange={handleCategoryChange}
-                sx={selectedCategory}
-              >
-                {categories.map((category) => (
-                  <MenuItem
-                    key={category.firebaseKey}
-                    value={category.firebaseKey}
-                  >
-                    {category.categoryType}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={10} sm={14}>
-            <FormControl>
-              <FormLabel id="servingsTitle">Servings</FormLabel>
-              <RadioGroup
-                row
-                labelPlacement="top"
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="servings"
-                onChange={handleChange}
-                value={String(formInput.servings)}
-              >
-                <FormControlLabel
-                  labelPlacement="top"
-                  value="1"
-                  control={<Radio />}
-                  label="1"
-                />
-                <FormControlLabel
-                  labelPlacement="top"
-                  value="2"
-                  control={<Radio />}
-                  label="2"
-                />
-                <FormControlLabel
-                  labelPlacement="top"
-                  value="4"
-                  control={<Radio />}
-                  label="4"
-                />
-                <FormControlLabel
-                  labelPlacement="top"
-                  value="6"
-                  control={<Radio />}
-                  label="6"
-                />
-                <FormControlLabel
-                  labelPlacement="top"
-                  value="8"
-                  control={<Radio />}
-                  label="8"
-                />
-                <FormControlLabel
-                  labelPlacement="top"
-                  value="10"
-                  control={<Radio />}
-                  label="10"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={10} sm={14}>            <FormControlLabel
-            control={(
-              <Switch
-                name="favorite"
-                checked={formInput.favorite}
+      <Box sx={{ mt: 10 }}>
+        <h1>{recipeObj.firebaseKey ? 'Update' : 'Create'} Recipe</h1>
+        <Box sx={{ mt: 3 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                label="Recipe Name"
+                name="title"
+                variant="outlined"
+                value={formInput.title}
                 onChange={handleChange}
               />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                label="Total Time Required"
+                name="totalTime"
+                variant="outlined"
+                value={formInput.totalTime}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                multiline
+                label="Description"
+                name="description"
+                variant="outlined"
+                value={formInput.description}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                multiline
+                label="Ingredients"
+                name="ingredients"
+                variant="outlined"
+                value={formInput.ingredients}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                multiline
+                label="Directions"
+                name="directions"
+                variant="outlined"
+                value={formInput.directions}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                label="Recipe Creator"
+                name="author"
+                variant="outlined"
+                value={formInput.author}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <TextField
+                required
+                fullWidth
+                label="Image"
+                name="image"
+                variant="outlined"
+                value={formInput.image}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  id="category_dropdown"
+                  label="Category"
+                  value={formInput.categoryId}
+                  onChange={handleCategoryChange}
+                  sx={selectedCategory}
+                >
+                  {categories.map((category) => (
+                    <MenuItem
+                      key={category.firebaseKey}
+                      value={category.firebaseKey}
+                    >
+                      {category.categoryType}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <FormControl>
+                <FormLabel id="servingsTitle">Servings</FormLabel>
+                <RadioGroup
+                  row
+                  labelPlacement="top"
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="servings"
+                  onChange={handleChange}
+                  value={String(formInput.servings)}
+                >
+                  <FormControlLabel
+                    labelPlacement="top"
+                    value="1"
+                    control={<Radio />}
+                    label="1"
+                  />
+                  <FormControlLabel
+                    labelPlacement="top"
+                    value="2"
+                    control={<Radio />}
+                    label="2"
+                  />
+                  <FormControlLabel
+                    labelPlacement="top"
+                    value="4"
+                    control={<Radio />}
+                    label="4"
+                  />
+                  <FormControlLabel
+                    labelPlacement="top"
+                    value="6"
+                    control={<Radio />}
+                    label="6"
+                  />
+                  <FormControlLabel
+                    labelPlacement="top"
+                    value="8"
+                    control={<Radio />}
+                    label="8"
+                  />
+                  <FormControlLabel
+                    labelPlacement="top"
+                    value="10"
+                    control={<Radio />}
+                    label="10"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <FormControlLabel
+                control={(
+                  <Switch
+                    name="favorite"
+                    checked={formInput.favorite}
+                    onChange={handleChange}
+                  />
           )}
-            label="Favorite"
-          />
+                label="Favorite"
+              />
+            </Grid>
+            <Grid item xs={10} sm={14}>
+              <Button type="submit" variant="contained">{recipeObj.firebaseKey ? 'Update' : 'Submit'}</Button>
+            </Grid>
           </Grid>
-          <Grid item xs={10} sm={14}>
-            <Button type="submit" variant="contained">{recipeObj.firebaseKey ? 'Update' : 'Submit'}</Button>
-          </Grid>
-        </Grid>
+        </Box>
       </Box>
     </form>
   );
