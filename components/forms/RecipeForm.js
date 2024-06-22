@@ -28,28 +28,47 @@ const initialState = {
 export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  console.warn(selectedCategory);
   const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
   const { firebaseKey } = router.query;
 
-  useEffect(() => {
-    getCategories(user.uid).then((returnedCategories) => {
-      const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
-      setSelectedCategory(category);
-      setCategories(returnedCategories);
-    });
+  // useEffect(() => {
+  //   getCategories(user.uid).then((returnedCategories) => {
+  //     const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
+  //     setSelectedCategory(category);
+  //     setCategories(returnedCategories);
+  //   });
 
+  //   if (recipeObj && recipeObj.firebaseKey) {
+  //     getCategories(user.uid).then((returnedCategories) => {
+  //       setCategories(returnedCategories);
+  //       returnedCategories.forEach((category) => {
+  //         if (category.firebaseKey === recipeObj.firebaseKey.categoryId) {
+  //           setSelectedCategory(category);
+  //         }
+  //       });
+  //     });
+  //     setFormInput(recipeObj);
+  //   }
+  // }, [firebaseKey, recipeObj, user.uid]);
+
+  useEffect(() => {
     if (recipeObj && recipeObj.firebaseKey) {
       getCategories(user.uid).then((returnedCategories) => {
+        console.warn(returnedCategories);
+        const selected = returnedCategories.find((category) => category.firebaseKey === recipeObj.firebaseKey.categoryId);
+        setSelectedCategory(selected);
+        console.warn('selected', selected);
         setCategories(returnedCategories);
-        returnedCategories.forEach((category) => {
-          if (category.firebaseKey === recipeObj.firebaseKey.categoryId) {
-            setSelectedCategory(category);
-          }
-        });
+        setFormInput(recipeObj);
       });
-      setFormInput(recipeObj);
+    } else {
+      getCategories(user.uid).then((returnedCategories) => {
+        setSelectedCategory(null);
+        setCategories(returnedCategories);
+      });
     }
   }, [firebaseKey, recipeObj, user.uid]);
 
@@ -154,7 +173,7 @@ export default function RecipeForm({ recipeObj }) {
             <InputLabel>Category</InputLabel>
             <Select
               id="category_dropdown"
-              value={selectedCategory ? selectedCategory.firebaseKey : ''}
+              value={formInput.categoryId}
               onChange={handleCategoryChange}
             >
               {categories.map((category) => (

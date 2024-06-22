@@ -13,6 +13,6 @@ export default function EditCategoryForm() {
   }, [firebaseKey]);
 
   return (
-    <CategoryForm categoryObj={editItem} />
+    <CategoryForm categoryObj={console.warn(editItem)} />
   );
 }
