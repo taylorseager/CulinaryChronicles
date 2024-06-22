@@ -47,7 +47,7 @@ export default function RecipeForm({ recipeObj }) {
         setCategories(returnedCategories);
       });
     }
-  }, [firebaseKey, recipeObj, user.uid]);
+  }, [firebaseKey, recipeObj, setSelectedCategory, user.uid]);
 
   const handleCategoryChange = (event) => {
     const categoryId = event.target.value;
