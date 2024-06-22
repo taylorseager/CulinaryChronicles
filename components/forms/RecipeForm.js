@@ -87,7 +87,7 @@ export default function RecipeForm({ recipeObj }) {
   return (
     <form id="recipeForm" onSubmit={handleSubmit}>
       <h1>{recipeObj.firebaseKey ? 'Update' : 'Create'} Recipe</h1>
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 5 }}>
         <Grid container spacing={1}>
           <Grid item xs={10} sm={14}>
             <TextField
