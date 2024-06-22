@@ -35,7 +35,10 @@ export default function ViewSingleRecipeDetails() {
   }, [recipeDetails, user.uid]);
 
   return (
-    <Card sx={{ minWidth: 275, maxWidth: 500 }}>
+    <Card sx={{
+      minWidth: 275, maxWidth: 500, padding: 5, gap: 5,
+    }}
+    >
       <CardMedia
         component="img"
         height="250"

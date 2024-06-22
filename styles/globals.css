@@ -22,3 +22,8 @@ body {
 .MuiRadioGroup-root {
   margin-top: 15;
 }
+
+.css-hyum1k-MuiToolbar-root {
+  min-height: 40px;
+  max-height: 60px;
+}

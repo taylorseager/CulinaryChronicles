@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -37,7 +37,8 @@ const AppBar = styled(MuiAppBar, {
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 1),
+  height: '100px',
+  // padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
