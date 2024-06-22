@@ -17,7 +17,6 @@ export default function CategoryForm({ categoryObj }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.warn('useEffect');
     if (categoryObj.firebaseKey) {
       setFormInput(categoryObj);
     }
@@ -52,7 +51,7 @@ export default function CategoryForm({ categoryObj }) {
       <form onSubmit={handleSubmit}>
         <Typography component="h1" variant="h5">{categoryObj.firebaseKey ? 'Update' : 'Create'} Category
         </Typography>
-        <Box component="form" sx={{ mt: 3 }}>
+        <Box sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField

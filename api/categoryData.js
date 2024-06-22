@@ -16,9 +16,7 @@ const getCategories = (uid) => new Promise((resolve, reject) => {
       return response.json();
     })
     .then((data) => {
-      // 'data' will be an object where keys are firebaseKeys and values are category objects
       if (data) {
-        // Extract values from the categories object and convert to array
         const categoriesArray = Object.values(data);
         resolve(categoriesArray);
       } else {

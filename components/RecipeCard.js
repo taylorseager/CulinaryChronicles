@@ -1,5 +1,6 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -27,7 +28,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
       />
       <CardContent>
         <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
-          Name: {recipeObj.title}
+          {recipeObj.title}  {recipeObj.favorite ? <FavoriteIcon fontSize="medium" color="error" /> : <FavoriteBorderOutlinedIcon fontSize="medium" />}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Total Time: {recipeObj.totalTime} (mins)
@@ -37,9 +38,6 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Description: {recipeObj.description}
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Favorite: {recipeObj.favorite ? 'Yes' : 'No'}
         </Typography>
       </CardContent>
       <CardActions>
@@ -62,7 +60,9 @@ RecipeCard.propTypes = {
     categoryId: PropTypes.string,
     description: PropTypes.string,
     favorite: PropTypes.bool,
+    public: PropTypes.bool,
     firebaseKey: PropTypes.string,
+    uid: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
