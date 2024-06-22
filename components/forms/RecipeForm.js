@@ -27,7 +27,7 @@ const initialState = {
 
 export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = useState(initialState);
-  const [setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
@@ -86,65 +86,87 @@ export default function RecipeForm({ recipeObj }) {
   return (
     <form id="recipeForm" onSubmit={handleSubmit}>
       <h1>{recipeObj.firebaseKey ? 'Update' : 'Create'} Recipe</h1>
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 5, gap: 5 }}>
         <Grid container rowSpacing={8}>
           <Grid item xs={8}>
-            <Input
-              name="title"
-              placeholder="Recipe Name"
-              variant="standard"
-              value={formInput.title}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              name="totalTime"
-              placeholder="Total Time Required"
-              variant="standard"
-              value={formInput.totalTime}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              name="description"
-              placeholder="Description"
-              variant="standard"
-              value={formInput.description}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              name="ingredients"
-              placeholder="Ingredients"
-              variant="standard"
-              value={formInput.ingredients}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              name="directions"
-              placeholder="Directions"
-              variant="standard"
-              value={formInput.directions}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              name="author"
-              placeholder="Recipe Creator"
-              variant="standard"
-              value={formInput.author}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              name="image"
-              placeholder="Recipe Image"
-              variant="standard"
-              value={formInput.image}
-              onChange={handleChange}
-              required
-            />
+            <FormControl fullWidth>
+              <InputLabel>Title</InputLabel>
+              <Input
+                name="title"
+                placeholder="Recipe Name"
+                variant="standard"
+                value={formInput.title}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Total Time Required</InputLabel>
+              <Input
+                name="totalTime"
+                placeholder="Total Time Required"
+                variant="standard"
+                value={formInput.totalTime}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Description</InputLabel>
+              <Input
+                name="description"
+                placeholder="Description"
+                variant="standard"
+                value={formInput.description}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Ingredients</InputLabel>
+              <Input
+                name="ingredients"
+                placeholder="Ingredients"
+                variant="standard"
+                value={formInput.ingredients}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Directions</InputLabel>
+              <Input
+                name="directions"
+                placeholder="Directions"
+                variant="standard"
+                value={formInput.directions}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Recipe Creator</InputLabel>
+              <Input
+                name="author"
+                placeholder="Recipe Creator"
+                variant="standard"
+                value={formInput.author}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Image</InputLabel>
+              <Input
+                name="image"
+                placeholder="Recipe Image"
+                variant="standard"
+                value={formInput.image}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+
           </Grid>
           <FormControl fullWidth>
             <InputLabel>Category</InputLabel>
@@ -152,6 +174,7 @@ export default function RecipeForm({ recipeObj }) {
               id="category_dropdown"
               value={formInput.categoryId}
               onChange={handleCategoryChange}
+              sx={selectedCategory}
             >
               {categories.map((category) => (
                 <MenuItem
