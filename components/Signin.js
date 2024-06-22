@@ -1,10 +1,9 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Box, Button, Typography } from '@mui/material';
 import { signIn } from '../utils/auth';
 
 function Signin() {
   return (
-    <div
+    <Box
       className="text-center d-flex flex-column justify-content-center align-content-center"
       style={{
         height: '90vh',
@@ -13,12 +12,12 @@ function Signin() {
         margin: '0 auto',
       }}
     >
-      <h1>Hi there!</h1>
-      <p>Click the button below to login!</p>
-      <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
+      <Typography variant="h3">Hi there!</Typography>
+      <Typography variant="h5">Click the button below to login!</Typography>
+      <Button variant="contained" color="secondary" onClick={signIn}>
         Sign In
       </Button>
-    </div>
+    </Box>
   );
 }
 

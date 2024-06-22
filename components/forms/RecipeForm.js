@@ -28,49 +28,53 @@ const initialState = {
 export default function RecipeForm({ recipeObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  console.warn(selectedCategory);
   const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
   const { firebaseKey } = router.query;
 
-  // I'm sure something about this needs to be refactored?
-  useEffect(() => {
-    getCategories(user.uid).then((returnedCategories) => {
-      const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
-      setSelectedCategory(category);
-      setCategories(returnedCategories);
-    });
+  // useEffect(() => {
+  //   getCategories(user.uid).then((returnedCategories) => {
+  //     const category = returnedCategories.find((cat) => cat.categoryType === 'Sides');
+  //     setSelectedCategory(category);
+  //     setCategories(returnedCategories);
+  //   });
 
+  //   if (recipeObj && recipeObj.firebaseKey) {
+  //     getCategories(user.uid).then((returnedCategories) => {
+  //       setCategories(returnedCategories);
+  //       returnedCategories.forEach((category) => {
+  //         if (category.firebaseKey === recipeObj.firebaseKey.categoryId) {
+  //           setSelectedCategory(category);
+  //         }
+  //       });
+  //     });
+  //     setFormInput(recipeObj);
+  //   }
+  // }, [firebaseKey, recipeObj, user.uid]);
+
+  useEffect(() => {
     if (recipeObj && recipeObj.firebaseKey) {
       getCategories(user.uid).then((returnedCategories) => {
+        console.warn(returnedCategories);
+        const selected = returnedCategories.find((category) => category.firebaseKey === recipeObj.firebaseKey.categoryId);
+        setSelectedCategory(selected);
+        console.warn('selected', selected);
         setCategories(returnedCategories);
-        returnedCategories.forEach((category) => {
-          if (category.firebaseKey === recipeObj.firebaseKey.categoryId) {
-            setSelectedCategory(category);
-          }
-        });
+        setFormInput(recipeObj);
       });
-      setFormInput(recipeObj);
+    } else {
+      getCategories(user.uid).then((returnedCategories) => {
+        setSelectedCategory(null);
+        setCategories(returnedCategories);
+      });
     }
   }, [firebaseKey, recipeObj, user.uid]);
 
-  // const handleCategoryChange = (category) => {
-  //   setSelectedCategory(category);
-  //   setFormInput({
-  //     ...formInput,
-  //     categoryId: category.firebaseKey,
-  //   });
-  // };
-
-  useEffect(() => {
-    console.warn(formInput);
-  });
-
   const handleCategoryChange = (event) => {
     const categoryId = event.target.value;
-    console.warn('categoryid', categoryId);
     const selected = categories.find((cat) => cat.firebaseKey === categoryId);
-    console.warn('selected', selected);
     setSelectedCategory(selected);
     setFormInput({
       ...formInput,
@@ -165,12 +169,11 @@ export default function RecipeForm({ recipeObj }) {
               required
             />
           </Grid>
-          {/* I'm able to get the categories options to show up but can't actually chose an option. */}
           <FormControl fullWidth>
             <InputLabel>Category</InputLabel>
             <Select
               id="category_dropdown"
-              value={selectedCategory ? selectedCategory.firebaseKey : ''}
+              value={formInput.categoryId}
               onChange={handleCategoryChange}
             >
               {categories.map((category) => (
