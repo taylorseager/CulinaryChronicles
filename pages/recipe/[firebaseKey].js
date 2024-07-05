@@ -32,7 +32,7 @@ export default function ViewSingleRecipeDetails() {
 
   return (
     <Card sx={{
-      minWidth: 275, maxWidth: 500, padding: 5, gap: 5,
+      minWidth: 275, maxWidth: 500, padding: 2, margin: '75px',
     }}
     >
       <CardMedia
@@ -51,14 +51,11 @@ export default function ViewSingleRecipeDetails() {
         </Typography>
         <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Servings:</Typography> {recipeDetails.servings}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Category: {categoryDetails?.categoryType}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Category:</Typography> {categoryDetails?.categoryType}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Ingredients: {recipeDetails.ingredients}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Ingredients:</Typography> {recipeDetails.ingredients}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Directions: {recipeDetails.directions}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Directions:</Typography> {recipeDetails.directions}
         </Typography>
         <CardActions>
           <Stack spacing={2} direction="row">
