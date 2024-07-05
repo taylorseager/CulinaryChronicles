@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, CardMedia } from '@mui/material';
 import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
 
@@ -15,6 +15,15 @@ function Home() {
         margin: '0 auto',
       }}
     >
+      <CardMedia
+        component="img"
+        image="/CulinaryChroniclesLogo.png"
+        alt="Culinary Chronicles logo"
+        style={{
+          height: '350px',
+          maxWidth: '700px',
+        }}
+      />
       <h1>Hello {user.displayName}!</h1>
       <Button color="success" variant="outlined" href="/recipe/newRecipe">Create New Recipe</Button>
       <Button color="error" variant="outlined" onClick={signOut}>Sign Out</Button>

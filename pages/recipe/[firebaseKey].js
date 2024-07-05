@@ -32,7 +32,7 @@ export default function ViewSingleRecipeDetails() {
 
   return (
     <Card sx={{
-      minWidth: 275, maxWidth: 500, padding: 5, gap: 5,
+      minWidth: 275, maxWidth: 500, padding: 2, margin: '75px',
     }}
     >
       <CardMedia
@@ -42,26 +42,20 @@ export default function ViewSingleRecipeDetails() {
         alt={recipeDetails.image}
       />
       <CardContent>
-        <Typography sx={{ fontSize: 24 }} color="black">
+        <Typography sx={{ fontSize: 24 }} color="#45087B">
           {recipeDetails.title}  {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} color="black">
-          Recipe Creator: {recipeDetails.author}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Recipe Creator:</Typography> {recipeDetails.author}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Total Time: {recipeDetails.totalTime} (mins)
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Total Time:</Typography> {recipeDetails.totalTime} (mins)
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Servings: {recipeDetails.servings}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Servings:</Typography> {recipeDetails.servings}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Category: {categoryDetails?.categoryType}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Category:</Typography> {categoryDetails?.categoryType}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Ingredients: {recipeDetails.ingredients}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Ingredients:</Typography> {recipeDetails.ingredients}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Directions: {recipeDetails.directions}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Directions:</Typography> {recipeDetails.directions}
         </Typography>
         <CardActions>
           <Stack spacing={2} direction="row">
