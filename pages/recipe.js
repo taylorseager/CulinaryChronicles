@@ -24,9 +24,11 @@ export default function ViewRecipes() {
   return (
     <>
       <Box sx={{ mt: 10 }}>
-        <Button color="success" variant="outlined" href="/recipe/newRecipe">
-          Create New Recipe
-        </Button>
+        <Grid sx={{ mb: 2 }}>
+          <Button color="success" variant="contained" href="/recipe/newRecipe">
+            Create New Recipe
+          </Button>
+        </Grid>
         <Grid container spacing={3} direction="row" style={{ flexGrow: 1 }}>
           {recipes.map((recipe) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.firebaseKey} style={{ display: 'flex', flexDirection: 'row' }}>
