@@ -42,17 +42,14 @@ export default function ViewSingleRecipeDetails() {
         alt={recipeDetails.image}
       />
       <CardContent>
-        <Typography sx={{ fontSize: 24 }} color="black">
+        <Typography sx={{ fontSize: 24 }} color="#45087B">
           {recipeDetails.title}  {recipeDetails.favorite ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} color="black">
-          Recipe Creator: {recipeDetails.author}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Recipe Creator:</Typography> {recipeDetails.author}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Total Time: {recipeDetails.totalTime} (mins)
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Total Time:</Typography> {recipeDetails.totalTime} (mins)
         </Typography>
-        <Typography sx={{ fontSize: 14 }} component="div">
-          Servings: {recipeDetails.servings}
+        <Typography sx={{ fontSize: 14 }}><Typography component="span" fontWeight="bold">Servings:</Typography> {recipeDetails.servings}
         </Typography>
         <Typography sx={{ fontSize: 14 }} component="div">
           Category: {categoryDetails?.categoryType}
