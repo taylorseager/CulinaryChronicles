@@ -28,11 +28,11 @@ https://www.loom.com/share/02d0caa8c22949d5bc2f22181124b34f?sid=db95db60-58b0-47
 - [Wireframe](https://docs.google.com/presentation/d/1yxy9doC7b3WDua9UEucxxUJfRdJPsj-NJU2O3tqmaUI/edit?usp=sharing)
 
 ## Project Screenshots
-<img width="1148" alt="Home Page" src="images\readme-home-page.png">
-<img width="1148" alt="All Restaurants Page" src="images\readme-all-restaurants-page.png">
-<img width="1148" alt="My List Page" src="images\readme-my-list-page.png">
-<img width="1148" alt="Generated Restaurant Suggestion" src="images\readme-generated-suggestion.png">
-<img width="1148" alt="Create Restaurant Page" src="images\readme-create-restaurant-page.png">
+<img width="1148" alt="Landing Page" src="LandingPage.png">
+<img width="1148" alt="All Recipes Page" src="Recipes.png">
+<img width="1148" alt="Edit Recipe Page" src="/EditRecipe.png">
+<img width="1148" alt="All Categories Page" src="Categories.png">
+<img width="1148" alt="Edit Category Page" src="/public/EditCategory.png">
 
 ## Contributors
 - [Taylor Seager](https://github.com/taylorseager)
